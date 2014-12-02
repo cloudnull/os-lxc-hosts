@@ -48,8 +48,10 @@ INVENTORY_SKEL = {
 REQUIRED_HOSTVARS = [
     'is_metal',
     'ansible_ssh_host',
+    'physical_host_group',
     'container_address',
     'container_name',
+    'container_networks',
     'physical_host',
     'component'
 ]
@@ -460,6 +462,39 @@ def _add_additional_networks(key, inventory, ip_q, q_name, netmask, interface,
     :param is_ssh_address: ``bol`` set this address as ansible_ssh_host.
     :param is_container_address: ``bol`` set this address to container_address.
     """
+
+    def network_entry():
+        """Return a network entry for a container."""
+
+        # TODO(cloudnull) After a few releases this conditional should be
+        # simplified. The container address checking that is ssh address
+        # is only being done to support old inventory.
+
+        if is_metal:
+            _network = dict()
+        else:
+            _network = {'interface': interface}
+
+        if bridge:
+            _network['bridge'] = bridge
+
+        if net_type:
+            _network['type'] = net_type
+
+        return _network
+
+    def return_netmask():
+        """Return the netmask for a container."""
+
+        # TODO(cloudnull) After a few releases this conditional should be
+        # simplified. The container address checking that is ssh address
+        # is only being done to support old inventory.
+        _old_netmask = container.get(old_netmask)
+        if _old_netmask:
+            return container.pop(old_netmask)
+        elif netmask:
+            return netmask
+
     base_hosts = inventory['_meta']['hostvars']
     lookup = inventory.get(key, list())
 
@@ -499,55 +534,40 @@ def _add_additional_networks(key, inventory, ip_q, q_name, netmask, interface,
         else:
             networks = container['container_networks'] = dict()
 
-        ## This should convert found addresses based on q_name + _address
+        is_metal = container.get('is_metal')
+
+        ## This should convert found addresses based on q_name + "_address"
         #  and then build the network if its not found.
-
-        if container.get('is_metal') is True:
-            container['container_networks'] = dict()
-            phg = container['physical_host_group']
-            phg_config = user_config[phg][container_host]
-
-        if interface not in networks:
-            network = networks[old_address] = {'interface': interface}
-
-            # TODO(cloudnull) After a few releases this conditional should be
-            # simplified. The container address checking that is ssh address
-            # is only being done to support old inventory.
-            if is_ssh_address is True and container.get('ansible_ssh_host'):
-                network['address'] = container['ansible_ssh_host']
-            elif old_address in container and container[old_address]:
+        if not is_metal and old_address not in networks:
+            network = networks[old_address] = network_entry()
+            if old_address in container and container[old_address]:
                 network['address'] = container.pop(old_address)
-            else:
+            elif not is_metal:
                 address = get_ip_address(name=q_name, ip_q=ip_q)
                 if address:
                     network['address'] = address
 
+            network['netmask'] = return_netmask()
+        elif is_metal:
+            network = networks[old_address] = network_entry()
+            network['netmask'] = return_netmask()
             # TODO(cloudnull) After a few releases this conditional should be
             # simplified. The container address checking that is ssh address
             # is only being done to support old inventory.
-            if old_netmask in container and container[old_netmask]:
-                network['netmask'] = container.pop(old_netmask)
-            elif netmask:
-                network['netmask'] = netmask
+            if old_address in container and container[old_address]:
+                network['address'] = container.pop(old_address)
+            else:
+                if is_ssh_address or is_container_address:
+                    # Container physical host group
+                    cphg = container.get('physical_host_group')
+                    # user_config data from the container physical host group
+                    phg = user_config[cphg][container_host]
+                    network['address'] = phg['ip']
 
-            if bridge:
-                network['bridge'] = bridge
-
-            if net_type:
-                network['type'] = net_type
-
-        if is_ssh_address is True and container.get('is_metal') is True:
-            phg = container['physical_host_group']
-            phg_config = user_config[phg][container_host]
-            container['ansible_ssh_host'] = phg_config['ip']
-        elif is_ssh_address is True:
+        if is_ssh_address is True:
             container['ansible_ssh_host'] = networks[old_address]['address']
 
-        if is_container_address is True and container.get('is_metal') is True:
-            phg = container['physical_host_group']
-            phg_config = user_config[phg][container_host]
-            container['container_address'] = phg_config['ip']
-        elif is_container_address is True:
+        if is_container_address is True:
             container['container_address'] = networks[old_address]['address']
 
 
