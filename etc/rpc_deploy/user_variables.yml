@@ -1,0 +1,61 @@
+---
+# Copyright 2014, Rackspace US, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Defined in group_vars/galera, but can overriden here.
+# galera_wait_timeout: 3600
+
+## Glance Options
+# Set default_store to "swift" if using Cloud Files or swift backend
+glance_default_store: file
+glance_notification_driver: noop
+
+maas_notification_plan: npManaged
+# By default we will create an agent token for each entity, however if you'd
+# prefer to use the same agent token for all entities then specify it here
+#maas_agent_token: some_token
+maas_target_alias: public0_v4
+maas_scheme: https
+# Override scheme for specific service remote monitor by specifying here: E.g.
+# maas_nova_scheme: http
+
+# Check this number of times before registering state change
+maas_alarm_local_consecutive_count: 3
+maas_alarm_remote_consecutive_count: 1
+# Period and timeout times (seconds) for a check
+# Timeout must be less than period
+maas_check_period: 60
+maas_check_timeout: 30
+maas_monitoring_zones:
+  - mzdfw
+  - mziad
+  - mzord
+  - mzlon
+  - mzhkg
+# Specify the maas_fqdn_extension, defaults to empty string.
+# This will be appended to the inventory_name of a host for MaaS purposes.
+# The inventory name + maas_fqdn_extension must match the entity name in MaaS
+# maas_fqdn_extension: .example.com
+# Set the following to skip creating alarms for this device
+#maas_excluded_devices: ['xvde']
+
+# Uncomment "nova_console_endpoint" to define a specific nova console URI or 
+# IP address this will construct the specific proxy endpoint for the console.
+# nova_console_endpoint: console.company_domain.name
+
+# Once the swift cluster has been setup DO NOT change these hash values!
+swift_hash_path_suffix:
+swift_hash_path_prefix:
+# This will allow all users to create containers and upload to swift if set to True
+swift_allow_all_users: False
