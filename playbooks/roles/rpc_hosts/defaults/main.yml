@@ -55,6 +55,8 @@ rpc_host_apt_packages:
   - cgroup-lite
   - curl
   - dmeventd
+  - dstat
+  - htop
   - iptables
   - libkmod-dev
   - libkmod2
