@@ -14,10 +14,21 @@
 # limitations under the License.
 
 container_config: /etc/lxc/lxc-rpc.conf
+
+# Default container template to build from
 container_template: rpc
+
+# container_fs.* is only used with building on an LVM backend
 container_fs_size: 5G
-container_release: trusty
+container_fs_type: ext4
+
+# Default store is lvm, however will fall back to dir if the
+# container_volume_group is not found.
 container_backing_store: lvm
+container_vg_name: lxc
+
+# Default image to build from
+container_release: trusty
 
 container_default_interfaces: |
   # The loopback network interface
