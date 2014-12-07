@@ -14,7 +14,9 @@ iface {{ lxc_net_bridge }} inet static
 {% endif %}
     # dnsmasq start and stop
     post-up /usr/local/bin/lxc-system-manage dnsmasq-start
+    post-up /usr/local/bin/lxc-system-manage iptables-create
     post-down /usr/local/bin/lxc-system-manage dnsmasq-stop
+    post-down /usr/local/bin/lxc-system-manage iptables-remove
     bridge_fd 0
     bridge_maxwait 0
     bridge_ports {{ lxc_net_bridge_port }}

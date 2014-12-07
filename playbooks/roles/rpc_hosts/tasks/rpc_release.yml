@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
+- name: Drop rpc release file
+  template:
+    src: "rpc-release.j2"
+    dest: "/etc/rpc-release"
+    owner: "root"
+    group: "root"
   tags:
-    - container-destroy
+    - rpc-release

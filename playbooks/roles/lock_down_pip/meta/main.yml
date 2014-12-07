@@ -28,4 +28,5 @@ galaxy_info:
     - python
     - development
     - openstack
-dependencies: [ "install_pip" ]
+    - rpc
+dependencies: []

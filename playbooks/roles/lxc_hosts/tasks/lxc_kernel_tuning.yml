@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
-  tags:
-    - container-destroy
+- name: Tuning kernel for lxc
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_set: "{{ item.set|default('yes') }}"
+    state: "{{ item.state|default('present') }}"
+    reload: "{{ item.reload|default('yes') }}"
+  with_items: lxc_kernel_options

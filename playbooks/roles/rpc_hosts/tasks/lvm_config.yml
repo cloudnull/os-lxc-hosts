@@ -13,10 +13,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
+- name: Discover lvm devices
+  shell: |
+    /sbin/pvdisplay | awk '/PV\ Name/ {print $3}' | sed 's/\/dev\///g'
+  register: lvm_devices
+  changed_when: lvm_devices.rc != 0
+  failed_when: false
   tags:
-    - container-destroy
+    - rpc-host-lvm-config
+
+- name: Ensure "/etc/lvm" directory
+  file:
+    state: "directory"
+    path: "/etc/lvm"
+  when: lvm_devices.rc == 0
+  tags:
+    - rpc-host-lvm-config
+
+- name: Drop lvm Config
+  template:
+    src: "lvm.conf.j2"
+    dest: "/etc/lvm/lvm.conf"
+    owner: "root"
+    group: "root"
+  when: lvm_devices.rc == 0
+  tags:
+    - rpc-host-lvm-config

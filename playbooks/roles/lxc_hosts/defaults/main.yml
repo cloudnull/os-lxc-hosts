@@ -35,6 +35,10 @@ lxc_container_net_link: "{{ lxc_net_bridge }}"  ## name of the host bridge to at
 lxc_container_net_type: veth  ## lxc network interface type (veth, phys, vlan, macvlan, empty)
 lxc_container_net_name: eth0  ## name of the interface inside the container.
 
+# System control kernel tuning
+lxc_kernel_options:
+  - { key: 'fs.inotify.max_user_instances', value: 256 }
+
 # Add or remove repositories.
 lxc_apt_repos:
   - repo: "ppa:ubuntu-lxc/stable"
@@ -42,19 +46,19 @@ lxc_apt_repos:
 
 # Required apt packages.
 lxc_apt_packages:
-  - python3-lxc
-  - python-dev
-  - lxc-templates
-  - lxc-dev
-  - lxc
-  - liblxc1
+  - apparmor-utils
+  - bridge-utils
   - cgmanager
   - cgroup-lite
-  - dnsmasq
-  - bridge-utils
   - debootstrap
+  - dnsmasq
   - git
-  - apparmor-utils
+  - liblxc1
+  - lxc
+  - lxc-dev
+  - lxc-templates
+  - python-dev
+  - python3-lxc
 
 # Prebuilt images to deploy onto hosts for use in containers.
 lxc_container_caches: 

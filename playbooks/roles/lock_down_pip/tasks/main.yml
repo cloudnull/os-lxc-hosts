@@ -26,7 +26,7 @@
   tags:
     - lock-directories-pip
 
-- name: Drop pip config file(s)
+- name: Drop pip lockdown file(s)
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -35,11 +35,10 @@
     mode: "{{ item.mode|default('0644') }}"
   with_items:
     - { src: "pip-link-build.py", dest: "{{ ansible_env.HOME }}/.pip/pip-link-build.py", mode: "0755" }
-    - { src: "global.conf", dest: "{{ ansible_env.HOME }}/.pip/base/global.conf" }
   tags:
     - lock-pip-files
 
-- name: Drop pip link file(s)
+- name: Drop pip global config(s)
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -47,7 +46,16 @@
     group: "{{ ansible_user_id }}"
     mode: "{{ item.mode|default('0644') }}"
   with_items:
-    - { src: "rpc-release.link.j2", dest: "{{ ansible_env.HOME }}/.pip/links.d/rpc_release.link" }
+    - { src: "global.conf.j2", dest: "{{ ansible_env.HOME }}/.pip/base/global.conf" }
+  tags:
+    - lock-pip-files
+
+- name: Drop pip link file(s)
+  lineinfile:
+    dest: "{{ ansible_env.HOME }}/.pip/links.d/{{ item.name }}.link"
+    line: "{{ item.link }}"
+    create: "yes"
+  with_items: pip_links
   tags:
     - lock-pip-files
 

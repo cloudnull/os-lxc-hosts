@@ -23,6 +23,7 @@
   with_items: lxc_container_caches
   tags:
     - lxc-cache
+    - lxc-cache-download
 
 - name: Move lxc cached image into place
   unarchive:
@@ -32,6 +33,7 @@
   with_items: lxc_container_caches
   tags:
     - lxc-cache
+    - lxc-cache-unarchive
 
 - name: Remove cache tarball
   file:
@@ -40,3 +42,4 @@
   with_items: lxc_container_caches
   tags:
     - lxc-cache
+    - lxc-cache-remove

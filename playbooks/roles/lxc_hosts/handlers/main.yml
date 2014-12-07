@@ -22,7 +22,14 @@
     state: "restarted"
 
 - name: Init reload
-  command: initctl reload-configuration
+  command: "initctl reload-configuration"
 
 - name: Restart irqbalance
-  service: name=irqbalance state=restarted pattern=irqbalance enabled=yes
+  service:
+    name: "irqbalance"
+    state: "restarted"
+    pattern: "irqbalance"
+    enabled: "yes"
+
+- name: Bring bridge up
+  command: "ifup {{ lxc_net_bridge }}"

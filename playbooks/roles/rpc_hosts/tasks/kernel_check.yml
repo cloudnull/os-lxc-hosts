@@ -13,10 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
+- name: Check Kernel Variant
+  fail:
+    msg: >
+      Wrong kernel Variant found
+      [ {{ ansible_kernel.split('-')[2] }} != generic ]
+      Resolve this issue before continuing.
+  when: ansible_kernel.split('-')[2] != 'generic'
   tags:
-    - container-destroy
+    - rpc-host-kernel-check
+
+- name: Check Kernel Version
+  fail:
+    msg: >
+      Wrong kernel Version found
+      [ {{ ansible_kernel }} < {{ rpc_host_required_kernel }} ]
+      Resolve this issue before continuing.
+  when: ansible_kernel | version_compare(rpc_host_required_kernel, '<')
+  tags:
+    - rpc-host-kernel-check

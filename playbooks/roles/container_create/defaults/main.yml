@@ -13,8 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-container_management_bridge: br-mgmt
-
 container_config: /etc/lxc/lxc-rpc.conf
 container_template: rpc
 container_fs_size: 5G

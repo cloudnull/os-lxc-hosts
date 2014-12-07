@@ -13,10 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
+- name: "Ensure kernel module(s)"
+  modprobe:
+    name: "{{ item }}"
+  with_items: rpc_host_kernel_modules
+  when: rpc_host_kernel_modules is defined
   tags:
-    - container-destroy
+    - rpc-host-kernel-modules
+
+- name: "Ensure kernel module(s) loaded at boot"
+  lineinfile:
+    dest: /etc/modules
+    line: "{{ item }}"
+  with_items: rpc_host_kernel_modules
+  when: rpc_host_kernel_modules is defined
+  tags:
+    - rpc-host-kernel-modules

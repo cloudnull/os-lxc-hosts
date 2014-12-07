@@ -13,10 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
-  tags:
-    - container-destroy
+- name: Basic host setup
+  hosts: "{{ host_group|default('hosts') }}"
+  user: root
+  roles:
+    - { role: "rpc_hosts", tags: [ "rpc-hosts-setup" ] }

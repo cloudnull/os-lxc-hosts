@@ -14,5 +14,8 @@
 # limitations under the License.
 
 - include: lxc_pre_install.yml
+- include: lxc_kernel_tuning.yml
+- include: lxc_net.yml
 - include: lxc_install.yml
+- include: lxc_dnsmasq_cleanup.yml
 - include: lxc_cache.yml

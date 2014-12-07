@@ -19,7 +19,6 @@
     dest: "{{ git_dest }}"
     version: "{{ git_install_branch }}"
   register: git_clone
-  ignore_errors: yes
   until: git_clone|success
   retries: 5
   tags:

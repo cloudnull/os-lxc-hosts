@@ -13,10 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
-  tags:
-    - container-destroy
+- include: host_packages.yml
+- include: sysstat.yml
+- include: update_hosts_file.yml
+- include: lvm_config.yml
+- include: kernel_check.yml
+- include: kernel_modules.yml
+- include: kernel_tuning.yml
+- include: authorized_keys.yml
+- include: rpc_release.yml

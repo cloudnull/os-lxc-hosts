@@ -13,10 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
+- name: Enable sysstat
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "sysstat.default.j2", dest: "/etc/default/sysstat" }
+    - { src: "sysstat.cron.j2", dest: "/etc/cron.d/sysstat" }
+  notify: Restart sysstat
   tags:
-    - container-destroy
+    - rpc-host-sysstat

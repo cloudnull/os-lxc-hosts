@@ -13,10 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
-    state: "absent"
-  delegate_to: "{{ physical_host }}"
-  tags:
-    - container-destroy
+# Options for pip global
+pip_no_index: true
+pip_enable_pre_releases: true
+pip_timeout: 120
+
+
+# Options for pip install
+pip_upgrade: true
+pip_allow_all_external: true
+
+
+# Drop link files to lock down pip
+pip_links:
+  - { name: "rpc_release", link: "{{ rpc_repo_url }}/python_packages/{{ rpc_release }}/" }

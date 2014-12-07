@@ -18,14 +18,6 @@
     container_ssh_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   delegate_to: "{{ physical_host }}"
 
-- name: Check Container Bridge exists
-  file:
-    state: "file"
-    path: "/sys/class/net/{{ container_management_bridge }}/bridge/bridge_id"
-  delegate_to: "{{ physical_host }}"
-  tags:
-    - host-setup
-
 - name: Check for lxc volume group
   shell: (which vgs > /dev/null && vgs | grep -o "lxc") || false
   register: vg_result
@@ -42,6 +34,14 @@
   delegate_to: "{{ physical_host }}"
   tags:
     - container-vg-detect
+
+- name: Container backup directory
+  file:
+    path: "/openstack/backup/{{ container_name }}"
+    state: "directory"
+  delegate_to: "{{ physical_host }}"
+  tags:
+    - container-directories
 
 - name: Create container
   lxc-container:
@@ -65,8 +65,9 @@
       mkdir -p /var/backup
       sed -i 's/PermitRootLogin.*/PermitRootLogin\ yes/g' /etc/ssh/sshd_config
       service ssh restart
-      apt-get update
-      apt-get -y install python2.7
+      while timeout 120 apt-get update && apt-get -y install python2.7; [ $? = 124 ]; do
+        sleep 5
+      done
       rm /usr/bin/python
       ln -s /usr/bin/python2.7 /usr/bin/python
       echo -e '{{ container_default_interfaces }}' | tee /etc/network/interfaces

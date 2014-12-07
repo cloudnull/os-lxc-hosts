@@ -13,10 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Destroy a container
-  lxc-container:
-    name: "{{ container_name }}"
+- name: Ensure dnsmasq stopped
+  service:
+    name: "dnsmasq"
+    state: "stopped"
+    enabled: "no"
+
+- name: Remove dnsmasq file(s)
+  file:
+    path: "{{ item }}"
     state: "absent"
-  delegate_to: "{{ physical_host }}"
-  tags:
-    - container-destroy
+  with_items:
+    - /var/run/dnsmasq/resolv.conf
+    - /etc/dnsmasq.conf
