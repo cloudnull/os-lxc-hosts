@@ -46,7 +46,7 @@ INVENTORY_SKEL = {
 # Any new item added to inventory that will used as a default argument in the
 # inventory setup should be added to this list.
 REQUIRED_HOSTVARS = [
-    'is_metal',
+    'properties',
     'ansible_ssh_host',
     'physical_host_group',
     'container_address',
@@ -128,7 +128,7 @@ def _parse_belongs_to(key, belongs_to, inventory):
 def _build_container_hosts(container_affinity, container_hosts, type_and_name,
                            inventory, host_type, container_type,
                            container_host_type, physical_host_type, config,
-                           is_metal, assignment):
+                           properties, assignment):
     """Add in all of hte host associations into inventory.
 
     This will add in all of the hosts into the inventory based on the given
@@ -143,10 +143,14 @@ def _build_container_hosts(container_affinity, container_hosts, type_and_name,
     :param container_host_type: ``str`` Type of host
     :param physical_host_type: ``str``  Name of physical host group
     :param config: ``dict``  User defined information
-    :param is_metal: ``bol``  If true, a container entry will not be built
+    :param properties: ``dict``  Container properties
     :param assignment: ``str`` Name of container component target
     """
     container_list = []
+    is_metal = False
+    if properties:
+        is_metal = properties.get('is_metal', False)
+
     for make_container in range(container_affinity):
         for i in container_hosts:
             if '%s-' % type_and_name in i:
@@ -187,7 +191,7 @@ def _build_container_hosts(container_affinity, container_hosts, type_and_name,
             append_if(array=container_mapping, item=host_type_containers)
 
             hostvars_options.update({
-                'is_metal': is_metal,
+                'properties': properties,
                 'ansible_ssh_host': address,
                 'container_address': address,
                 'container_name': container_host_name,
@@ -229,6 +233,11 @@ def _append_to_host_groups(inventory, container_type, assignment, host_type,
     iph = inventory[physical_group_type]['hosts']
     iah = inventory[assignment]['hosts']
     for hname, hdata in inventory['_meta']['hostvars'].iteritems():
+        is_metal = False
+        properties = hdata.get('properties')
+        if properties:
+            is_metal = properties.get('is_metal', False)
+
         if 'container_types' in hdata or 'container_name' in hdata:
             if 'container_name' not in hdata:
                 container = hdata['container_name'] = hname
@@ -242,13 +251,13 @@ def _append_to_host_groups(inventory, container_type, assignment, host_type,
 
                 if container.startswith('%s-' % type_and_name):
                     append_if(array=iah, item=container)
-                elif hdata.get('is_metal') is True:
+                elif is_metal is True:
                     if component == assignment:
                         append_if(array=iah, item=container)
 
                 if container.startswith('%s-' % type_and_name):
                     append_if(array=iph, item=container)
-                elif hdata.get('is_metal') is True:
+                elif is_metal is True:
                     if container.startswith(host_type):
                         append_if(array=iph, item=container)
 
@@ -275,7 +284,7 @@ def _append_to_host_groups(inventory, container_type, assignment, host_type,
 
 
 def _add_container_hosts(assignment, config, container_name, container_type,
-                         inventory, is_metal):
+                         inventory, properties):
     """Add a given container name and type to the hosts.
 
     :param assignment: ``str`` Name of container component target
@@ -283,7 +292,7 @@ def _add_container_hosts(assignment, config, container_name, container_type,
     :param container_name: ``str``  Name fo container
     :param container_type: ``str``  Type of container
     :param inventory: ``dict``  Living dictionary of inventory
-    :param is_metal: ``bol``  If true, a container entry will not be built
+    :param properties: ``dict``  Dict of container properties
     """
     physical_host_type = '%s_hosts' % container_type.split('_')[0]
     # If the physical host type is not in config return
@@ -336,7 +345,7 @@ def _add_container_hosts(assignment, config, container_name, container_type,
             container_host_type,
             physical_host_type,
             config,
-            is_metal,
+            properties,
             assignment,
         )
 
@@ -534,7 +543,10 @@ def _add_additional_networks(key, inventory, ip_q, q_name, netmask, interface,
         else:
             networks = container['container_networks'] = dict()
 
-        is_metal = container.get('is_metal')
+        is_metal = False
+        properties = container.get('properties')
+        if properties:
+            is_metal = properties.get('is_metal', False)
 
         ## This should convert found addresses based on q_name + "_address"
         #  and then build the network if its not found.
@@ -587,7 +599,7 @@ def container_skel_load(container_skel, inventory, config):
                     key,
                     container_type,
                     inventory,
-                    value.get('is_metal', False)
+                    value.get('properties')
                 )
     else:
         cidr_networks = config.get('cidr_networks')
@@ -694,7 +706,7 @@ def _set_used_ips(user_defined_config, inventory):
                 append_if(array=USED_IPS, item=value)
 
 
-def _ensure_inventory_uptodate(inventory):
+def _ensure_inventory_uptodate(inventory, container_skel):
     """Update inventory if needed.
 
     Inspect the current inventory and ensure that all host items have all of
@@ -709,6 +721,15 @@ def _ensure_inventory_uptodate(inventory):
         for rh in REQUIRED_HOSTVARS:
             if rh not in value:
                 value[rh] = None
+
+    for key, value in container_skel.iteritems():
+        item = inventory.get(key)
+        hosts = item.get('hosts')
+        if hosts:
+            for host in hosts:
+                container = inventory['_meta']['hostvars'][host]
+                if 'properties' in value:
+                    container['properties'] = value['properties']
 
 
 def _parse_global_variables(user_cidr, inventory, user_defined_config):
@@ -899,7 +920,8 @@ def main():
         dynamic_inventory
     )
     skel_load(
-        environment.get('component_skel'), dynamic_inventory
+        environment.get('component_skel'),
+        dynamic_inventory
     )
     container_skel_load(
         environment.get('container_skel'),
@@ -908,7 +930,10 @@ def main():
     )
 
     # Look at inventory and ensure all entries have all required values.
-    _ensure_inventory_uptodate(inventory=dynamic_inventory)
+    _ensure_inventory_uptodate(
+        inventory=dynamic_inventory,
+        container_skel=environment.get('container_skel'),
+    )
 
     # Load the inventory json
     dynamic_inventory_json = json.dumps(

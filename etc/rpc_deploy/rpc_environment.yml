@@ -133,68 +133,101 @@ component_skel:
 container_skel:
   cinder_api_container:
     belongs_to:
+      - infra_containers
       - storage-infra_containers
     contains:
       - cinder_api
+    properties:
+      service_name: cinder
   cinder_volumes_container:
     belongs_to:
       - storage_containers
     contains:
       - cinder_scheduler
       - cinder_volume
+    properties:
+      is_metal: true
+      service_name: cinder
   elasticsearch_container:
     belongs_to:
       - log_containers
     contains:
       - elasticsearch
+    properties:
+      service_name: elasticsearch
   galera_container:
     belongs_to:
+      - infra_containers
       - shared-infra_containers
     contains:
       - galera
+    properties:
+      service_name: galera
   glance_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - glance_api
       - glance_registry
+    properties:
+      service_name: glance
   heat_apis_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - heat_api_cloudwatch
       - heat_api_cfn
       - heat_api
+    properties:
+      service_name: heat
   heat_engine_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - heat_engine
+    properties:
+      service_name: heat
   horizon_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - horizon
+    properties:
+      service_name: horizon
   keystone_container:
     belongs_to:
+      - infra_containers
       - identity_containers
     contains:
       - keystone
+    properties:
+      service_name: keystone
   kibana_container:
     belongs_to:
       - log_containers
     contains:
       - kibana
+    properties:
+      service_name: kibana
   logstash_container:
     belongs_to:
       - log_containers
     contains:
       - logstash
+    properties:
+      service_name: logstash
   memcached_container:
     belongs_to:
+      - infra_containers
       - shared-infra_containers
     contains:
       - memcached
+    properties:
+      service_name: memcached
   neutron_agents_container:
     belongs_to:
       - network_containers
@@ -205,60 +238,91 @@ container_skel:
       - neutron_linuxbridge_agent
       - neutron_l3_agent
       - neutron_dhcp_agent
+    properties:
+      service_name: neutron
   neutron_server_container:
     belongs_to:
       - network_containers
     contains:
       - neutron_server
+    properties:
+      service_name: neutron
   nova_api_ec2_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - nova_api_ec2
+    properties:
+      service_name: nova
   nova_api_metadata_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - nova_api_metadata
+    properties:
+      service_name: nova
   nova_api_os_compute_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - nova_api_os_compute
+    properties:
+      service_name: nova
   nova_cert_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - nova_cert
+    properties:
+      service_name: nova
   nova_compute_container:
-    is_metal: true
     belongs_to:
       - compute_containers
     contains:
       - neutron_linuxbridge_agent
       - nova_compute
+    properties:
+      is_metal: true
+      service_name: nova
   nova_conductor_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - nova_conductor
+    properties:
+      service_name: nova
   nova_scheduler_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - nova_scheduler
+    properties:
+      service_name: nova
   nova_spice_console_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
     contains:
       - nova_spice_console
+    properties:
+      service_name: nova
   rabbit_mq_container:
     belongs_to:
+      - infra_containers
       - shared-infra_containers
     contains:
       - rabbit
+    properties:
+      service_name: rabbitmq
   rsyslog_container:
     belongs_to:
+      - infra_containers
       - os-infra_containers
       - shared-infra_containers
       - identity_containers
@@ -268,34 +332,47 @@ container_skel:
       - network_containers
     contains:
       - rsyslog
+    properties:
+      service_name: rsyslog
   swift_proxy_container:
     belongs_to:
       - swift-proxy_containers
     contains:
       - swift_proxy
+    properties:
+      service_name: swift
   swift_acc_container:
-    is_metal: true
     belongs_to: 
       - swift_containers
     contains:
       - swift_acc
+    properties:
+      is_metal: true
+      service_name: swift
   swift_obj_container:
-    is_metal: true
     belongs_to:
       - swift_containers
     contains:
       - swift_obj
+    properties:
+      is_metal: true
+      service_name: swift
   swift_cont_container:
-    is_metal: true
     belongs_to:
       - swift_containers
     contains:
       - swift_cont
+    properties:
+      is_metal: true
+      service_name: swift
   utility_container:
     belongs_to:
+      - infra_containers
       - shared-infra_containers
     contains:
       - utility
+    properties:
+      service_name: utility
 
 
 physical_skel:
@@ -305,6 +382,9 @@ physical_skel:
   compute_hosts:
     belongs_to:
       - hosts
+  infra_containers:
+    belongs_to:
+      - all_containers
   infra_hosts:
     belongs_to:
       - hosts

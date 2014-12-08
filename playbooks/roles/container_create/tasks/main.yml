@@ -35,10 +35,13 @@
   tags:
     - container-vg-detect
 
-- name: Container backup directory
+- name: Container service directories
   file:
-    path: "/openstack/backup/{{ container_name }}"
+    path: "{{ item }}"
     state: "directory"
+  with_items:
+    - "/openstack/backup/{{ container_name }}"
+    - "/openstack/log/{{ container_name }}"
   delegate_to: "{{ physical_host }}"
   tags:
     - container-directories
@@ -118,12 +121,15 @@
   tags:
     - container-networks
 
-## TODO(cloudnull) This needs to be adjusted to use the service name. Maybe this should go into a different play?
-# - name: Container network interfaces
-#   lxc-container:
-#   name: "{{ container_name }}"
-#   container_command: |
-#     mkdir -p '/var/log/{{ service_name }}'
-#     mkdir -p '/etc/{{ service_name }}'
-#   container_config:
-#     - "lxc.mount.entry=/openstack/log/{{ container_name }} var/log/{{ service_name }} none defaults,bind,rw 0 0"
+- name: Create container service directories
+  lxc-container:
+    name: "{{ container_name }}"
+    container_command: |
+      mkdir -p '/var/log/{{ properties.service_name }}'
+      mkdir -p '/etc/{{ properties.service_name }}'
+    container_config:
+      - "lxc.mount.entry=/openstack/log/{{ container_name }} var/log/{{ properties.service_name }} none defaults,bind,rw 0 0"
+  when: properties.service_name is defined
+  delegate_to: "{{ physical_host }}"
+  tags:
+    - container-service-dirs
