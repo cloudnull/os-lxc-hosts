@@ -27,7 +27,6 @@
     - /usr/share/lxc/templates
     - /openstack
     - /openstack/backup
-    - /openstack/monitoring
   tags:
     - lxc-directories
 

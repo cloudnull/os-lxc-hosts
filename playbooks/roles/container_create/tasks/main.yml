@@ -65,7 +65,6 @@
       fi
       grep '{{ container_ssh_key }}' ~/.ssh/authorized_keys || echo '{{ container_ssh_key }}' | tee -a ~/.ssh/authorized_keys
       # Create internal directories
-      mkdir -p /monitoring
       mkdir -p /etc/network/interfaces.d
       mkdir -p /var/backup
       sed -i 's/PermitRootLogin.*/PermitRootLogin\ yes/g' /etc/ssh/sshd_config
@@ -79,7 +78,6 @@
     container_config:
       - "lxc.aa_profile=lxc-openstack"
       - "lxc.mount.entry=/openstack/backup/{{ container_name }} var/backup none defaults,bind,rw 0 0"
-      - "lxc.mount.entry=/openstack/monitoring monitoring none defaults,bind,rw 0 0"
   delegate_to: "{{ physical_host }}"
   tags:
     - container-create
