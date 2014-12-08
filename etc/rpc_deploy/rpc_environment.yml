@@ -139,6 +139,7 @@ container_skel:
       - cinder_api
     properties:
       service_name: cinder
+      container_release: trusty
   cinder_volumes_container:
     belongs_to:
       - storage_containers
@@ -148,6 +149,7 @@ container_skel:
     properties:
       is_metal: true
       service_name: cinder
+      container_release: trusty
   elasticsearch_container:
     belongs_to:
       - log_containers
@@ -155,6 +157,7 @@ container_skel:
       - elasticsearch
     properties:
       service_name: elasticsearch
+      container_release: trusty
   galera_container:
     belongs_to:
       - infra_containers
@@ -163,6 +166,7 @@ container_skel:
       - galera
     properties:
       service_name: galera
+      container_release: trusty
   glance_container:
     belongs_to:
       - infra_containers
@@ -172,6 +176,7 @@ container_skel:
       - glance_registry
     properties:
       service_name: glance
+      container_release: trusty
   heat_apis_container:
     belongs_to:
       - infra_containers
@@ -182,6 +187,7 @@ container_skel:
       - heat_api
     properties:
       service_name: heat
+      container_release: trusty
   heat_engine_container:
     belongs_to:
       - infra_containers
@@ -190,6 +196,7 @@ container_skel:
       - heat_engine
     properties:
       service_name: heat
+      container_release: trusty
   horizon_container:
     belongs_to:
       - infra_containers
@@ -198,6 +205,7 @@ container_skel:
       - horizon
     properties:
       service_name: horizon
+      container_release: trusty
   keystone_container:
     belongs_to:
       - infra_containers
@@ -206,6 +214,7 @@ container_skel:
       - keystone
     properties:
       service_name: keystone
+      container_release: trusty
   kibana_container:
     belongs_to:
       - log_containers
@@ -213,6 +222,7 @@ container_skel:
       - kibana
     properties:
       service_name: kibana
+      container_release: trusty
   logstash_container:
     belongs_to:
       - log_containers
@@ -220,6 +230,7 @@ container_skel:
       - logstash
     properties:
       service_name: logstash
+      container_release: trusty
   memcached_container:
     belongs_to:
       - infra_containers
@@ -228,6 +239,7 @@ container_skel:
       - memcached
     properties:
       service_name: memcached
+      container_release: trusty
   neutron_agents_container:
     belongs_to:
       - network_containers
@@ -240,6 +252,7 @@ container_skel:
       - neutron_dhcp_agent
     properties:
       service_name: neutron
+      container_release: trusty
   neutron_server_container:
     belongs_to:
       - network_containers
@@ -247,6 +260,7 @@ container_skel:
       - neutron_server
     properties:
       service_name: neutron
+      container_release: trusty
   nova_api_ec2_container:
     belongs_to:
       - infra_containers
@@ -255,6 +269,7 @@ container_skel:
       - nova_api_ec2
     properties:
       service_name: nova
+      container_release: trusty
   nova_api_metadata_container:
     belongs_to:
       - infra_containers
@@ -263,6 +278,7 @@ container_skel:
       - nova_api_metadata
     properties:
       service_name: nova
+      container_release: trusty
   nova_api_os_compute_container:
     belongs_to:
       - infra_containers
@@ -271,6 +287,7 @@ container_skel:
       - nova_api_os_compute
     properties:
       service_name: nova
+      container_release: trusty
   nova_cert_container:
     belongs_to:
       - infra_containers
@@ -279,6 +296,7 @@ container_skel:
       - nova_cert
     properties:
       service_name: nova
+      container_release: trusty
   nova_compute_container:
     belongs_to:
       - compute_containers
@@ -288,6 +306,7 @@ container_skel:
     properties:
       is_metal: true
       service_name: nova
+      container_release: trusty
   nova_conductor_container:
     belongs_to:
       - infra_containers
@@ -296,6 +315,7 @@ container_skel:
       - nova_conductor
     properties:
       service_name: nova
+      container_release: trusty
   nova_scheduler_container:
     belongs_to:
       - infra_containers
@@ -304,6 +324,7 @@ container_skel:
       - nova_scheduler
     properties:
       service_name: nova
+      container_release: trusty
   nova_spice_console_container:
     belongs_to:
       - infra_containers
@@ -312,6 +333,7 @@ container_skel:
       - nova_spice_console
     properties:
       service_name: nova
+      container_release: trusty
   rabbit_mq_container:
     belongs_to:
       - infra_containers
@@ -320,6 +342,7 @@ container_skel:
       - rabbit
     properties:
       service_name: rabbitmq
+      container_release: trusty
   rsyslog_container:
     belongs_to:
       - infra_containers
@@ -334,6 +357,7 @@ container_skel:
       - rsyslog
     properties:
       service_name: rsyslog
+      container_release: trusty
   swift_proxy_container:
     belongs_to:
       - swift-proxy_containers
@@ -341,6 +365,7 @@ container_skel:
       - swift_proxy
     properties:
       service_name: swift
+      container_release: trusty
   swift_acc_container:
     belongs_to: 
       - swift_containers
@@ -349,6 +374,7 @@ container_skel:
     properties:
       is_metal: true
       service_name: swift
+      container_release: trusty
   swift_obj_container:
     belongs_to:
       - swift_containers
@@ -357,6 +383,7 @@ container_skel:
     properties:
       is_metal: true
       service_name: swift
+      container_release: trusty
   swift_cont_container:
     belongs_to:
       - swift_containers
@@ -365,6 +392,7 @@ container_skel:
     properties:
       is_metal: true
       service_name: swift
+      container_release: trusty
   utility_container:
     belongs_to:
       - infra_containers
@@ -373,6 +401,7 @@ container_skel:
       - utility
     properties:
       service_name: utility
+      container_release: trusty
 
 
 physical_skel:

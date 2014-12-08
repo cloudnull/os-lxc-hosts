@@ -15,7 +15,7 @@
 
 # This is the md5 of the environment file
 # this will ensure consistency when deploying.
-environment_version: 323d28f97779b886d37adb5377249c0a
+environment_version: a189bb262741cc4035404ef5df66344a
 
 # User defined container networks in CIDR notation. The inventory generator
 # assigns IP addresses to network interfaces inside containers from these
