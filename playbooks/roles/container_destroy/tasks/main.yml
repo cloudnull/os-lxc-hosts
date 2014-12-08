@@ -20,3 +20,15 @@
   delegate_to: "{{ physical_host }}"
   tags:
     - container-destroy
+
+- name: Destroy container service directories
+  file:
+    path: "{{ item }}"
+    state: "absent"
+  with_items:
+    - "/openstack/backup/{{ container_name }}"
+    - "/openstack/log/{{ container_name }}"
+    - "/var/lib/lxc/{{ container_name }}"
+  delegate_to: "{{ physical_host }}"
+  tags:
+    - container-directories
