@@ -107,9 +107,12 @@ component_skel:
   nova_spice_console:
     belongs_to:
       - nova_all
-  rabbit:
+  pkg_repo:
     belongs_to:
-      - rabbit_all
+    - repo_all
+  rabbitmq:
+    belongs_to:
+      - rabbitmq_all
   rsyslog:
     belongs_to:
       - rsyslog_all
@@ -334,14 +337,23 @@ container_skel:
     properties:
       service_name: nova
       container_release: trusty
-  rabbit_mq_container:
+  rabbitmq_container:
     belongs_to:
       - infra_containers
       - shared-infra_containers
     contains:
-      - rabbit
+      - rabbitmq
     properties:
       service_name: rabbitmq
+      container_release: trusty
+  repo_container:
+    belongs_to:
+      - infra_containers
+      - repo_containers
+    contains:
+      - pkg_repo
+    properties:
+      service_name: pkg_repo
       container_release: trusty
   rsyslog_container:
     belongs_to:
@@ -447,6 +459,12 @@ physical_skel:
   os-infra_hosts:
     belongs_to:
       - hosts
+  repo_hosts:
+    belongs_to:
+      - hosts
+  repo_containers:
+    belongs_to:
+      - all_containers 
   shared-infra_containers:
     belongs_to:
       - all_containers

@@ -13,16 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Create container(s)
-  hosts: "{{ container_group|default('all_containers') }}"
-  gather_facts: false
+- hosts: rsyslog
   user: root
+  pre_tasks:
+    - name: Rsyslog extra lxc config
+      lxc-container:
+        name: "{{ container_name }}"
+        container_command: |
+          [[ ! -d "/openstack/log" ]] && mkdir -p "/openstack/log"
+        container_config:
+          - "lxc.mount.entry=/openstack/log openstack/log none bind 0 0"
+      delegate_to: "{{ physical_host }}"
+      tags:
+        - rsyslog-dir
   roles:
-    - { role: "container_create", tags: [ "container-create" ] }
-
-- name: Install pip and lock it down
-  hosts: "{{ container_group|default('all_containers') }}:!repo_all"
-  user: root
-  roles:
-    - { role: "install_pip", tags: [ "install-pip" ] }
-    - { role: "lock_down_pip", tags: [ "lock-down-pip" ] }
+    - { role: "rsyslog_setup", tags: [ "rsyslog-setup" ] }

@@ -13,16 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Create container(s)
-  hosts: "{{ container_group|default('all_containers') }}"
-  gather_facts: false
-  user: root
-  roles:
-    - { role: "container_create", tags: [ "container-create" ] }
+rsyslog_apt_repos:
+  - { repo: "ppa:adiscon/v8-stable", state: "present" }
 
-- name: Install pip and lock it down
-  hosts: "{{ container_group|default('all_containers') }}:!repo_all"
-  user: root
-  roles:
-    - { role: "install_pip", tags: [ "install-pip" ] }
-    - { role: "lock_down_pip", tags: [ "lock-down-pip" ] }
+rsyslog_apt_packages:
+  - rsyslog
+
+rsyslog_pip_packages:
+  - python-memcached
+  - pycrypto
+
+logstash_main_group_name: logstash_all

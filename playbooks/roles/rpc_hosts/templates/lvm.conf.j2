@@ -9,6 +9,8 @@
     {% endfor %}
 {% endif %}
 
+# {{ ansible_managed }}
+
 # Ansible Discovered LVM Devices {{ lv_devices }}
 {% if used_lvm_devices|length <= 0 %}
     {% if used_lvm_devices.append('"a/.*/"') %}{% endif %}

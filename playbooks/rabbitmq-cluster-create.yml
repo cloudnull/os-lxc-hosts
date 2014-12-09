@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: rpc-host-setup.yml
-- include: lxc-host-setup.yml
-- include: lxc-lib-install.yml
+- hosts: rabbitmq_all[0]
+  user: root
+  roles:
+    - { role: "rabbitmq_cluster_create", tags: [ "rabbitmq-cluster-create" ] }

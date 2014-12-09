@@ -14,11 +14,20 @@
 # limitations under the License.
 
 
+## RabbitMQ
+rabbitmq_userid: openstack
+rabbitmq_cluster_name: rpc
+
+
 ## Galera
 galera_wsrep_cluster_address: "{% for host in groups['galera'] %}{{ hostvars[host]['container_address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
 galera_wsrep_address: "{{ container_address }}"
 # Set ``galera_max_connections`` to override the calculated max connections.
 # galera_max_connections: 500
+
+
+## Logstash
+logstash_port: 5544
 
 
 ## Memcached options

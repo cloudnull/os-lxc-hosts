@@ -13,16 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Create container(s)
-  hosts: "{{ container_group|default('all_containers') }}"
-  gather_facts: false
-  user: root
-  roles:
-    - { role: "container_create", tags: [ "container-create" ] }
+- name: Drop base haproxy config
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/haproxy/{{ item }}"
+  with_items:
+    - haproxy.cfg
+  notify: Restart haproxy
+  tags:
+    - haproxy-base-config
 
-- name: Install pip and lock it down
-  hosts: "{{ container_group|default('all_containers') }}:!repo_all"
-  user: root
-  roles:
-    - { role: "install_pip", tags: [ "install-pip" ] }
-    - { role: "lock_down_pip", tags: [ "lock-down-pip" ] }
+- name: "Create haproxy service config files"
+  template:
+    src: service.j2
+    dest: "/etc/haproxy/conf.d/{{ item.service.haproxy_service_name }}"
+  with_items: haproxy_service_configs
+  notify: Restart haproxy
+  tags:
+    - haproxy-service-config

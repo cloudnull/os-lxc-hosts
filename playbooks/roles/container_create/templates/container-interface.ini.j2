@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 # Create a veth pair within the container
 lxc.network.type = {{ item.value.type|default('veth') }}
 # Network device within the container
