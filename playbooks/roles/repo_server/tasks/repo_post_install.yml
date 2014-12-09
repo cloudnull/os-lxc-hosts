@@ -1,0 +1,72 @@
+---
+# Copyright 2014, Rackspace US, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: File and directory setup
+  file:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+    owner: "{{ item.owner|default('root') }}"
+    group: "{{ item.group|default('root') }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { path: "/var/www", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
+    - { path: "/var/www/repo", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
+    - { path: "/var/www/repo/python_packages", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
+    - { path: "/var/www/repo/python_packages/pools", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
+    - { path: "/var/www/.ssh", state: "directory", owner: "nginx", group: "www-data", mode: "2700" }
+    - { path: "/etc/lsyncd", state: "directory", mode: "0755" }
+    - { path: "/var/log/lsyncd", state: "directory", mode: "0755" }
+    - { path: "/etc/nginx/sites-enabled/default", state: "absent", mode: "0644" }
+  tags:
+    - pkg-repo-dirs
+
+- name: Drop NGINX configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "nginx.conf.j2", dest: "/etc/nginx/nginx.conf" }
+    - { src: "rpc-slushee.vhost.j2", dest: "/etc/nginx/sites-available/rpc-slushee.vhost" }
+  notify:
+    - reload nginx
+  tags:
+    - pkg-repo-nginx
+    - pkg-repo-config
+
+- name: Change fcgiwrap GID/UID
+  lineinfile:
+    dest: "/etc/init.d/fcgiwrap"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: "^FCGI_SOCKET_OWNER=", line: 'FCGI_SOCKET_OWNER="nginx"' }
+    - { regexp: "^FCGI_SOCKET_GROUP=", line: 'FCGI_SOCKET_GROUP="www-data"' }
+  notify:
+    - reload nginx
+    - reload fcgiwrap
+  tags:
+    - pkg-repo-nginx
+    - pkg-repo-config
+
+- name: Enable rpc-slushee site
+  file:
+    src: "/etc/nginx/sites-available/rpc-slushee.vhost"
+    dest: "/etc/nginx/sites-enabled/rpc-slushee.vhost"
+    state: "link"
+  notify:
+    - reload nginx
+  tags:
+    - pkg-repo-nginx
+    - pkg-repo-config

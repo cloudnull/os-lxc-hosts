@@ -1,0 +1,21 @@
+settings {
+    logfile = "/var/log/lsyncd/lsyncd.log",
+    statusFile = "/var/log/lsyncd/lsyncd-status.log",
+    statusInterval = 20
+}
+
+{% for node in groups[repo_main_group_name] %}
+{% if groups[repo_main_group_name][0] != node %}
+sync {
+    default.rsync,
+    source = "/var/www/repo",
+    target = "{{ hostvars[node]['ansible_ssh_host'] }}:/var/www/repo",
+    rsync = {
+        compress = true,
+        acls = true,
+        rsh = "/usr/bin/ssh -l nginx -i /var/www/.ssh/id_rsa -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=5"
+    }
+}
+
+{% endif %}
+{% endfor %}
