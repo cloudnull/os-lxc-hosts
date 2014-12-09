@@ -14,8 +14,8 @@
 # limitations under the License.
 
 galaxy_info:
-  author: Kevin Carter
-  description: Join rabbitmq cluster
+  author: rcbops
+  description: Rabbitmq node join a cluster
   company: Rackspace
   license: Apache2
   min_ansible_version: 1.6.6

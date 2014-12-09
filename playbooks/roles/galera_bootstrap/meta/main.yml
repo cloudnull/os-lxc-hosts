@@ -14,7 +14,7 @@
 # limitations under the License.
 
 galaxy_info:
-  author: Kevin Carter
+  author: rcbops
   description: Finallize galera user setup
   company: Rackspace
   license: Apache2

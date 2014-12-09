@@ -14,8 +14,8 @@
 # limitations under the License.
 
 galaxy_info:
-  author: Kevin Carter
-  description: Installation of modern pip
+  author: rcbops
+  description: Installation and setup of HAProxy
   company: Rackspace
   license: Apache2
   min_ansible_version: 1.6.6

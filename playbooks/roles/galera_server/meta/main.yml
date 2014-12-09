@@ -14,7 +14,7 @@
 # limitations under the License.
 
 galaxy_info:
-  author: Kevin Carter
+  author: rcbops
   description: Installation galera server
   company: Rackspace
   license: Apache2

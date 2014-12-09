@@ -14,7 +14,7 @@
 # limitations under the License.
 
 galaxy_info:
-  author: Kevin Carter
+  author: rcbops
   description: Install rabbitmq server
   company: Rackspace
   license: Apache2

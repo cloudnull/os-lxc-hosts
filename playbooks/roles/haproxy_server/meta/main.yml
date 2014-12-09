@@ -15,7 +15,7 @@
 
 galaxy_info:
   author: rcbops
-  description: Installation galera client
+  description: Installation and setup of HAPtoxy
   company: Rackspace
   license: Apache2
   min_ansible_version: 1.6.6
@@ -25,8 +25,7 @@ galaxy_info:
         - trusty
   categories:
     - cloud
-    - galera
-    - mariadb
+    - python
     - development
     - openstack
     - rpc
