@@ -25,7 +25,7 @@
         container_config:
           - "lxc.mount.entry=/openstack/log openstack/log none bind 0 0"
       delegate_to: "{{ physical_host }}"
-      when: properties.is_metal != true
+      when: not properties.is_metal is defined or properties.is_metal != true
       tags:
         - rsyslog-dir
   roles:
