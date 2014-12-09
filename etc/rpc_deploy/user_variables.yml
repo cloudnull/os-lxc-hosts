@@ -13,14 +13,54 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Defined in group_vars/galera, but can overriden here.
-# galera_wait_timeout: 3600
+
+## Galera
+galera_wsrep_cluster_address: "{% for host in groups['galera'] %}{{ hostvars[host]['container_address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
+galera_wsrep_address: "{{ container_address }}"
+# Set ``galera_max_connections`` to override the calculated max connections.
+# galera_max_connections: 500
+
+
+## Memcached options
+# memcached listening address
+memcached_listen: "{{ container_address }}"
+
+# memcached memory usage
+base_memcached_memory: "{{ ansible_memtotal_mb | default(1537) | int / 2 }}"
+memcached_memory: "{{ base_memcached_memory | int }}"
+
 
 ## Glance Options
 # Set default_store to "swift" if using Cloud Files or swift backend
 glance_default_store: file
 glance_notification_driver: noop
 
+# `internalURL` will cause glance to speak to swift via ServiceNet, use
+# `publicURL` to communicate with swift over the public network
+glance_swift_store_endpoint_type: internalURL
+
+
+## Nova
+# Uncomment "nova_console_endpoint" to define a specific nova console URI or 
+# IP address this will construct the specific proxy endpoint for the console.
+# nova_console_endpoint: console.company_domain.name
+
+# This defaults to KVM, if you are deploying on a host that is not KVM capable
+# change this to your hypervisor type: IE "qemu", "lxc".
+# nova_virt_type: kvm
+# nova_cpu_allocation_ratio: 2.0
+# nova_ram_allocation_ratio: 1.0
+
+
+## Swift
+# Once the swift cluster has been setup DO NOT change these hash values!
+swift_hash_path_suffix:
+swift_hash_path_prefix:
+# This will allow all users to create containers and upload to swift if set to True
+swift_allow_all_users: False
+
+
+## RPC Monitoring as a Service
 maas_notification_plan: npManaged
 # By default we will create an agent token for each entity, however if you'd
 # prefer to use the same agent token for all entities then specify it here
@@ -49,13 +89,3 @@ maas_monitoring_zones:
 # maas_fqdn_extension: .example.com
 # Set the following to skip creating alarms for this device
 #maas_excluded_devices: ['xvde']
-
-# Uncomment "nova_console_endpoint" to define a specific nova console URI or 
-# IP address this will construct the specific proxy endpoint for the console.
-# nova_console_endpoint: console.company_domain.name
-
-# Once the swift cluster has been setup DO NOT change these hash values!
-swift_hash_path_suffix:
-swift_hash_path_prefix:
-# This will allow all users to create containers and upload to swift if set to True
-swift_allow_all_users: False
