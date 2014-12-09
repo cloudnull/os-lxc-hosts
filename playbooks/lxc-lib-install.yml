@@ -17,6 +17,6 @@
   hosts: "{{ host_group|default('hosts') }}"
   user: root
   roles:
-    - { role: "py_from_git", tags: [ "py-from-git" ] }
+    - { role: "py_from_git", tags: [ "lxc-libs" ] }
   vars_files:
     - vars/repo_packages/python2_lxc.yml

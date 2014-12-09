@@ -17,4 +17,4 @@
   gather_facts: false
   user: root
   roles:
-    - { role: "container_destroy", tags: [ "container-destroy" ] }
+    - { role: "lxc_container_destroy", tags: [ "lxc-container-destroy" ] }

@@ -18,7 +18,7 @@
   gather_facts: false
   user: root
   roles:
-    - { role: "container_create", tags: [ "container-create" ] }
+    - { role: "lxc_container_create", tags: [ "lxc-container-create" ] }
 
 - name: Install pip and lock it down
   hosts: "{{ container_group|default('all_containers') }}:!repo_all"

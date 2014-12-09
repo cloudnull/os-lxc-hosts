@@ -16,4 +16,4 @@
 - include: rpc-hosts-setup.yml
 - include: lxc-hosts-setup.yml
 - include: lxc-lib-install.yml
-- include: containers-create.yml
+- include: lxc-containers-create.yml
