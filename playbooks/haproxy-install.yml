@@ -18,5 +18,6 @@
   user: root
   roles:
     - { role: "haproxy_server", tags: [ "haproxy-server" ] }
+    - { role: "galera_client", tags: [ "galera-client" ] }
   vars_files:
     - vars/configs/haproxy_config.yml

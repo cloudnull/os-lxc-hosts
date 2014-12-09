@@ -22,7 +22,7 @@ haproxy_service_configs:
       haproxy_timeout_client: 5000s
       haproxy_timeout_server: 5000s
       haproxy_backend_options:
-        - "mysql-check user haproxy"
+        - "mysql-check user {{ galera_monitoring_user }}"
   - service:
       haproxy_service_name: glance_api
       haproxy_backend_nodes: "{{ groups['glance_api'] }}"

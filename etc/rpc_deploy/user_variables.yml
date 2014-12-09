@@ -24,6 +24,7 @@ galera_wsrep_cluster_address: "{% for host in groups['galera'] %}{{ hostvars[hos
 galera_wsrep_address: "{{ container_address }}"
 # Set ``galera_max_connections`` to override the calculated max connections.
 # galera_max_connections: 500
+galera_monitoring_user: haproxy
 
 
 ## Logstash

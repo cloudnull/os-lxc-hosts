@@ -38,3 +38,5 @@ haproxy_service_configs:
         - "forwardfor"
         - "httpchk"
         - "httplog"
+
+galera_monitoring_user: monitoring
