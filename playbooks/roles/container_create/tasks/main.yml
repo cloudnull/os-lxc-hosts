@@ -40,6 +40,7 @@
     path: "{{ item }}"
     state: "directory"
   with_items:
+    - "/openstack/{{ container_name }}"
     - "/openstack/backup/{{ container_name }}"
     - "/openstack/log/{{ container_name }}"
   delegate_to: "{{ physical_host }}"
