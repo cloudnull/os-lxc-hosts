@@ -176,4 +176,9 @@ haproxy_service_configs:
       haproxy_backend_nodes: "{{ groups['swift_proxy'] }}"
       haproxy_port: 8080
       haproxy_balance_type: http
-
+  - service:
+      haproxy_service_name: repo_all
+      haproxy_backend_nodes: "{{ groups['pkg_repo'] }}"
+      haproxy_port: 8181
+      haproxy_backend_port: 80
+      haproxy_balance_type: http

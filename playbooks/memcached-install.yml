@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- hosts: memcached
+- name: Install memcached
+  hosts: memcached
   user: root
   roles:
     - { role: "memcached", tags: [ "memcached" ] }

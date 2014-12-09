@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- hosts: rabbitmq_all:!rabbitmq_all[0]
+- name: Join rabbitmq cluster nodes
+  hosts: rabbitmq_all:!rabbitmq_all[0]
   user: root
   serial: 1
   roles:

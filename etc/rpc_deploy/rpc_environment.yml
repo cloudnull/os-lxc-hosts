@@ -109,7 +109,7 @@ component_skel:
       - nova_all
   pkg_repo:
     belongs_to:
-    - repo_all
+      - repo_all
   rabbitmq:
     belongs_to:
       - rabbitmq_all
@@ -348,12 +348,11 @@ container_skel:
       container_release: trusty
   repo_container:
     belongs_to:
-      - infra_containers
-      - repo_containers
+      - repo-infra_containers
     contains:
       - pkg_repo
     properties:
-      service_name: pkg_repo
+      service_name: repo
       container_release: trusty
   rsyslog_container:
     belongs_to:
@@ -365,6 +364,7 @@ container_skel:
       - storage_containers
       - log_containers
       - network_containers
+      - repo-infra_containers
     contains:
       - rsyslog
     properties:
@@ -459,10 +459,10 @@ physical_skel:
   os-infra_hosts:
     belongs_to:
       - hosts
-  repo_hosts:
+  repo-infra_hosts:
     belongs_to:
       - hosts
-  repo_containers:
+  repo-infra_containers:
     belongs_to:
       - all_containers 
   shared-infra_containers:

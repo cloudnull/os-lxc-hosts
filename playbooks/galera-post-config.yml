@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- hosts: galera_all[0]
+- Name: Run galera post install config
+  hosts: galera_all[0]
   user: root
   roles:
     - { role: "galera_setup", tags: [ "galera-setup" ] }

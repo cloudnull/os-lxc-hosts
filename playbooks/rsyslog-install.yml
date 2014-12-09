@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- hosts: rsyslog
+- name: Install rsyslog
+  hosts: rsyslog
   user: root
   pre_tasks:
     - name: Rsyslog extra lxc config
@@ -24,6 +25,7 @@
         container_config:
           - "lxc.mount.entry=/openstack/log openstack/log none bind 0 0"
       delegate_to: "{{ physical_host }}"
+      when: properties.is_metal != true
       tags:
         - rsyslog-dir
   roles:
