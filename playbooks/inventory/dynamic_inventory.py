@@ -698,12 +698,11 @@ def _set_used_ips(user_defined_config, inventory):
 
     # Find all used IP addresses and ensure that they are not used again
     for host_entry in inventory['_meta']['hostvars'].values():
-        if 'ansible_ssh_host' in host_entry:
-            append_if(array=USED_IPS, item=host_entry['ansible_ssh_host'])
-
-        for key, value in host_entry.iteritems():
-            if key.endswith('address'):
-                append_if(array=USED_IPS, item=value)
+        networks = host_entry.get('container_networks', dict())
+        for network_entry in networks.values():
+            address = network_entry.get('address')
+            if address:
+                append_if(array=USED_IPS, item=address)
 
 
 def _ensure_inventory_uptodate(inventory, container_skel):

@@ -13,7 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Name of the user that has access to USAGE information
-galera_monitoring_user: monitoring
-galera_monitoring_user_password: ""
-galera_root_user: root
+galaxy_info:
+  author: rcbops
+  description: Inclusion of the typical openstack openrc file
+  company: Rackspace
+  license: Apache2
+  min_ansible_version: 1.6.6
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+  categories:
+    - cloud
+    - openrc
+    - development
+    - openstack
+dependencies: []

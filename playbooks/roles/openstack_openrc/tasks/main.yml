@@ -13,7 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Name of the user that has access to USAGE information
-galera_monitoring_user: monitoring
-galera_monitoring_user_password: ""
-galera_root_user: root
+- name: Create openrc file
+  template:
+    src: openrc
+    dest: "{{ openrc_file_dest }}"
+    owner: "{{ openrc_file_owner }}"
+    group: "{{ openrc_file_group }}"
+    mode: "0600"
+  tags:
+    - openstack-openrc-file

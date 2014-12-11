@@ -13,7 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Name of the user that has access to USAGE information
-galera_monitoring_user: monitoring
-galera_monitoring_user_password: ""
-galera_root_user: root
+## Endpoint types
+openrc_cinder_endpoint_type: internalURL
+openrc_nova_endpoint_type: internalURL
+openrc_os_endpoint_type: internalURL
+
+## Default credentials
+openrc_os_username: admin
+openrc_os_tenant_name: admin
+openrc_os_auth_url: "http://127.0.0.1:5000"
+openrc_os_password: "secrete"
+
+## Create file
+openrc_file_dest: /root/openrc
+openrc_file_owner: root
+openrc_file_group: root

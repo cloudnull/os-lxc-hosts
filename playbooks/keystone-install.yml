@@ -13,7 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Name of the user that has access to USAGE information
-galera_monitoring_user: monitoring
-galera_monitoring_user_password: ""
-galera_root_user: root
+- name: Installation and setup of Keystone
+  hosts: keystone
+  user: root
+  roles:
+    - role: "keystone_server"
+      tags: [ "keystone-server" ]
+    - role: "openstack_openrc"
+      tags: [ "openstack-openrc" ]
+  vars:
+    galera_address: "{{ internal_lb_vip_address }}"
+    openrc_os_auth_url: "{{ keystone_service_internalurl }}"
+    openrc_os_password: "{{ keystone_auth_admin_password }}"

@@ -14,32 +14,6 @@
 # limitations under the License.
 
 
-## RabbitMQ
-rabbitmq_userid: openstack
-rabbitmq_cluster_name: rpc
-
-
-## Galera
-galera_wsrep_cluster_address: "{% for host in groups['galera'] %}{{ hostvars[host]['container_address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
-galera_wsrep_address: "{{ container_address }}"
-# Set ``galera_max_connections`` to override the calculated max connections.
-# galera_max_connections: 500
-galera_monitoring_user: haproxy
-
-
-## Logstash
-logstash_port: 5544
-
-
-## Memcached options
-# memcached listening address
-memcached_listen: "{{ container_address }}"
-
-# memcached memory usage
-base_memcached_memory: "{{ ansible_memtotal_mb | default(1537) | int / 2 }}"
-memcached_memory: "{{ base_memcached_memory | int }}"
-
-
 ## Glance Options
 # Set default_store to "swift" if using Cloud Files or swift backend
 glance_default_store: file

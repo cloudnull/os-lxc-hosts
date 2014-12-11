@@ -13,7 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Name of the user that has access to USAGE information
-galera_monitoring_user: monitoring
-galera_monitoring_user_password: ""
-galera_root_user: root
+- include: keystone_pre_install.yml
+- include: keystone_install.yml
+- include: keystone_db_setup.yml
+- include: keystone_apache.yml
+- include: keystone_post_install.yml
+
+- include: keystone_token_cleanup.yml
+  when: ansible_hostname == groups['keystone'][0]
+- include: keystone_service_setup.yml
+  when: ansible_hostname == groups['keystone'][0]

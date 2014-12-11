@@ -16,5 +16,42 @@
 ## URL for the frozen rpc repo.
 rpc_repo_url: "http://mirror.rackspace.com/rackspaceprivatecloud"
 
+
 ## Release of the Rackspace Private Cloud
 rpc_release: master
+
+
+## RabbitMQ
+rabbitmq_userid: openstack
+rabbitmq_cluster_name: rpc
+rabbitmq_port: 5672
+rabbitmq_servers: "{% for host in groups['rabbitmq_all'] %}{{ hostvars[host]['container_address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+
+
+## Galera
+galera_wsrep_cluster_address: "{% for host in groups['galera_all'] %}{{ hostvars[host]['container_address'] }}{% if not loop.last %},{% endif %}{% endfor %}"
+galera_wsrep_address: "{{ container_address }}"
+# Set ``galera_max_connections`` to override the calculated max connections.
+# galera_max_connections: 500
+galera_monitoring_user: haproxy
+galera_root_user: root
+
+
+## Logstash
+logstash_port: 5544
+
+
+## Memcached options
+# memcached listening address
+memcached_listen: "{{ container_address }}"
+# memcached memory usage
+base_memcached_memory: "{{ ansible_memtotal_mb | default(1537) | int / 2 }}"
+memcached_memory: "{{ base_memcached_memory | int }}"
+memcached_port: 11211
+# Servers
+memcached_servers: "{% for host in groups['memcached'] %}{{ hostvars[host]['container_address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+
+
+## Keystone
+keystone_cache_backend_argument: "url:{% for host in groups['memcached'] %}{{ hostvars[host]['container_address'] }}{% if not loop.last %},{% endif %}{% endfor %}:{{ memcached_port }}"
+

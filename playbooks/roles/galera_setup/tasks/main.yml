@@ -21,12 +21,12 @@
     priv: "{{ item.priv }}"
     state: "{{ item.state }}"
   with_items:
-    - name: "root"
+    - name: "{{ galera_root_user }}"
       host: "%"
       password: "{{ galera_root_password }}"
       priv: "*.*:ALL,GRANT"
       state: present
-    - name: "root"
+    - name: "{{ galera_root_user }}"
       host: "localhost"
       password: "{{ galera_root_password }}"
       priv: "*.*:ALL"
