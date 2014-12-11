@@ -13,22 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Check Kernel Variant
-  fail:
-    msg: >
-      Wrong kernel Variant found
-      [ {{ ansible_kernel.split('-')[2] }} != generic ]
-      Resolve this issue before continuing.
-  when: ansible_kernel.split('-')[2] != 'generic'
-  tags:
-    - rpc-host-kernel-check
-
-- name: Check Kernel Version
-  fail:
-    msg: >
-      Wrong kernel Version found
-      [ {{ ansible_kernel }} < {{ rpc_host_required_kernel }} ]
-      Resolve this issue before continuing.
-  when: ansible_kernel | version_compare(rpc_host_required_kernel, '<')
-  tags:
-    - rpc-host-kernel-check
+- include: opc_host_packages.yml
+- include: opc_sysstat.yml
+- include: opc_update_hosts_file.yml
+- include: opc_lvm_config.yml
+- include: opc_kernel_check.yml
+- include: opc_kernel_modules.yml
+- include: opc_kernel_tuning.yml
+- include: opc_authorized_keys.yml
+- include: opc_rpc_release.yml

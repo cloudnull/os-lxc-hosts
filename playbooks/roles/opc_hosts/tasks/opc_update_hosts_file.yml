@@ -22,7 +22,7 @@
     - "{{ groups['all_containers'] }}"
     - "{{ groups['hosts'] }}"
   tags:
-    - rpc-host-hostfile
+    - opc-host-hostfile
 
 - name: Update hosts file remove stale Host entries
   lineinfile:
@@ -33,7 +33,7 @@
     - "{{ groups['all_containers'] }}"
     - "{{ groups['hosts'] }}"
   tags:
-    - rpc-host-hostfile
+    - opc-host-hostfile
 
 - name: Update hosts file from ansible inventory
   lineinfile:
@@ -44,4 +44,4 @@
     - "{{ groups['all_containers'] }}"
     - "{{ groups['hosts'] }}"
   tags:
-    - rpc-host-hostfile
+    - opc-host-hostfile

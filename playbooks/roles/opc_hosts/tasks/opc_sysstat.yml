@@ -22,4 +22,4 @@
     - { src: "sysstat.cron.j2", dest: "/etc/cron.d/sysstat" }
   notify: Restart sysstat
   tags:
-    - rpc-host-sysstat
+    - opc-host-sysstat

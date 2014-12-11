@@ -13,19 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: "Ensure kernel module(s)"
-  modprobe:
-    name: "{{ item }}"
-  with_items: rpc_host_kernel_modules
-  when: rpc_host_kernel_modules is defined
+- name: Drop opc release file
+  template:
+    src: "opc-release.j2"
+    dest: "/etc/opc-release"
+    owner: "root"
+    group: "root"
   tags:
-    - rpc-host-kernel-modules
-
-- name: "Ensure kernel module(s) loaded at boot"
-  lineinfile:
-    dest: /etc/modules
-    line: "{{ item }}"
-  with_items: rpc_host_kernel_modules
-  when: rpc_host_kernel_modules is defined
-  tags:
-    - rpc-host-kernel-modules
+    - opc-release

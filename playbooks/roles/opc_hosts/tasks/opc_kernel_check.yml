@@ -13,11 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Adding new system tuning
-  sysctl:
-    name: "{{ item.key }}"
-    value: "{{ item.value }}"
-    sysctl_set: "{{ item.set|default('yes') }}"
-    state: "{{ item.state|default('present') }}"
-    reload: "{{ item.reload|default('yes') }}"
-  with_items: kernel_options
+- name: Check Kernel Variant
+  fail:
+    msg: >
+      Wrong kernel Variant found
+      [ {{ ansible_kernel.split('-')[2] }} != generic ]
+      Resolve this issue before continuing.
+  when: ansible_kernel.split('-')[2] != 'generic'
+  tags:
+    - opc-host-kernel-check
+
+- name: Check Kernel Version
+  fail:
+    msg: >
+      Wrong kernel Version found
+      [ {{ ansible_kernel }} < {{ rpc_host_required_kernel }} ]
+      Resolve this issue before continuing.
+  when: ansible_kernel | version_compare(rpc_host_required_kernel, '<')
+  tags:
+    - opc-host-kernel-check

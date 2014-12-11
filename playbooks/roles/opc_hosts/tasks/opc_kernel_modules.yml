@@ -13,8 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Basic host setup
-  hosts: "{{ host_group|default('hosts') }}"
-  user: root
-  roles:
-    - { role: "rpc_hosts", tags: [ "rpc-hosts-setup" ] }
+- name: "Ensure kernel module(s)"
+  modprobe:
+    name: "{{ item }}"
+  with_items: rpc_host_kernel_modules
+  when: rpc_host_kernel_modules is defined
+  tags:
+    - opc-host-kernel-modules
+
+- name: "Ensure kernel module(s) loaded at boot"
+  lineinfile:
+    dest: /etc/modules
+    line: "{{ item }}"
+  with_items: rpc_host_kernel_modules
+  when: rpc_host_kernel_modules is defined
+  tags:
+    - opc-host-kernel-modules

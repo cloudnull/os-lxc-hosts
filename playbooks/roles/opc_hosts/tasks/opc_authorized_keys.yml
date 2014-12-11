@@ -21,7 +21,7 @@
     owner: "{{ ansible_user_id }}"
     mode: "0755"
   tags:
-    - rpc-host-keys
+    - opc-host-keys
 
 - name: Update SSH keys
   get_url:
@@ -30,7 +30,7 @@
     mode: "0640"
   when: ssh_key_url is defined
   tags:
-    - rpc-host-keys
+    - opc-host-keys
 
 - name: Ensure all keys in authorized_keys
   shell: |
@@ -41,4 +41,4 @@
     done < /root/.ssh/remotekeys
   when: ssh_key_url is defined
   tags:
-    - rpc-host-keys
+    - opc-host-keys

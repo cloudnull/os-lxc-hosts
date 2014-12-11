@@ -13,6 +13,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: setup-hosts.yml
-- include: setup-infrastructure.yml
-- include: setup-openstack.yml
+- name: Discover lvm devices
+  shell: |
+    /sbin/pvdisplay | awk '/PV\ Name/ {print $3}' | sed 's/\/dev\///g'
+  register: lvm_devices
+  changed_when: lvm_devices.rc != 0
+  failed_when: false
+  tags:
+    - opc-host-lvm-config
+
+- name: Ensure "/etc/lvm" directory
+  file:
+    state: "directory"
+    path: "/etc/lvm"
+  when: lvm_devices.rc == 0
+  tags:
+    - opc-host-lvm-config
+
+- name: Drop lvm Config
+  template:
+    src: "lvm.conf.j2"
+    dest: "/etc/lvm/lvm.conf"
+    owner: "root"
+    group: "root"
+  when: lvm_devices.rc == 0
+  tags:
+    - opc-host-lvm-config

@@ -13,18 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-rpc_code_name: wee-5ive
-rpc_release: master
+opc_code_name: wee-5ive
+opc_release: master
 
-rpc_host_systat_enabled: true
-rpc_host_systat_interval: 1
-rpc_host_systat_statistics_hour: 23
+opc_host_systat_enabled: true
+opc_host_systat_interval: 1
+opc_host_systat_statistics_hour: 23
 
 ## Defined required kernel. presently 3.13.0-32-generic
-rpc_host_required_kernel: 3.13.0-34-generic
+opc_host_required_kernel: 3.13.0-34-generic
 
 ## Kernel modules loaded on hosts
-rpc_host_kernel_modules:
+opc_host_kernel_modules:
   - 8021q
   - dm_multipath
   - dm_snapshot
@@ -48,7 +48,7 @@ rpc_host_kernel_modules:
   - x_tables
 
 ## Base packages
-rpc_host_apt_packages:
+opc_host_apt_packages:
   - apparmor-utils
   - bridge-utils
   - build-essential
@@ -72,7 +72,7 @@ rpc_host_apt_packages:
   - wget
 
 # System control kernel tuning
-kernel_options:
+opc_kernel_options:
   - { key: 'net.ipv4.conf.all.rp_filter', value: 0 }
   - { key: 'net.ipv4.conf.default.rp_filter', value: 0 }
   - { key: 'net.ipv4.ip_forward', value: 1 }

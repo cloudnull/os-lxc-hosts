@@ -13,11 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Drop rpc release file
-  template:
-    src: "rpc-release.j2"
-    dest: "/etc/rpc-release"
-    owner: "root"
-    group: "root"
+- name: Adding new system tuning
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_set: "{{ item.set|default('yes') }}"
+    state: "{{ item.state|default('present') }}"
+    reload: "{{ item.reload|default('yes') }}"
+  with_items: opc_kernel_options
   tags:
-    - rpc-release
+    - opc-host-kernel-tuning
