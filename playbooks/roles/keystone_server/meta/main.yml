@@ -31,5 +31,4 @@ galaxy_info:
     - openstack
 dependencies:
   - galera_client
-  - install_pip
-  - lock_down_pip
+  - pip_lock_down

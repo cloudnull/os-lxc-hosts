@@ -73,3 +73,7 @@ maas_monitoring_zones:
 # maas_fqdn_extension: .example.com
 # Set the following to skip creating alarms for this device
 #maas_excluded_devices: ['xvde']
+
+
+## RPC Support
+# rpc_support_holland_branch: defaults to release tag: v1.0.10

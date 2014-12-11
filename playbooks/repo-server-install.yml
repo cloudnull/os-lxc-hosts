@@ -29,8 +29,7 @@
       tags:
         - repo-dirs
   roles:
-    - { role: "install_pip", tags: [ "install-pip" ] }
-    - { role: "lock_down_pip", tags: [ "lock-down-pip" ] }
+    - { role: "pip_lock_down", tags: [ "pip-lock-down" ] }
     - { role: "galera_client", tags: [ "galera-client" ] }
     - { role: "repo_server", tags: [ "repo-server" ] }
   vars:

@@ -24,5 +24,4 @@
   hosts: "{{ container_group|default('all_containers') }}:!repo_all"
   user: root
   roles:
-    - { role: "install_pip", tags: [ "install-pip" ] }
-    - { role: "lock_down_pip", tags: [ "lock-down-pip" ] }
+    - { role: "pip_lock_down", tags: [ "pip-lock-down" ] }

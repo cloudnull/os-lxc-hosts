@@ -17,6 +17,5 @@
   hosts: "{{ host_group|default('hosts') }}"
   user: root
   roles:
-    - { role: "install_pip", tags: [ "install-pip" ] }
-    - { role: "lock_down_pip", tags: [ "lock-down-pip" ] }
+    - { role: "pip_lock_down", tags: [ "pip-lock-down" ] }
     - { role: "lxc_hosts", tags: [ "lxc-host", "host-setup" ] }
