@@ -39,7 +39,7 @@
   pip:
     name: "{{ item }}"
     state: present
-  with_items: 
+  with_items:
     - "{{ keystone_pip_packages }}"
     - "{{ keystone_git_dest }}"
   tags:

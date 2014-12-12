@@ -42,7 +42,7 @@
     su - nginx -c 'ssh-keygen -f /var/www/.ssh/id_rsa -t rsa -q -N ""'
 
 - name: Create empty 'authorized_keys' file
-  file: 
+  file:
     path: "/var/www/.ssh/authorized_keys"
     state: "touch"
 

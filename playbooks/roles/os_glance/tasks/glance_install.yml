@@ -41,7 +41,7 @@
   pip:
     name: "{{ item }}"
     state: present
-  with_items: 
+  with_items:
     - "{{ glance_pip_packages }}"
     - "{{ glance_git_dest }}"
   tags:
