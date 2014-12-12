@@ -21,4 +21,4 @@
 - include: opc_kernel_modules.yml
 - include: opc_kernel_tuning.yml
 - include: opc_authorized_keys.yml
-- include: opc_rpc_release.yml
+- include: opc_release.yml

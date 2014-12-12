@@ -13,8 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install rabbitmq server
-  hosts: rabbitmq_all
+- name: Installation and setup of Keystone
+  hosts: keystone
   user: root
   roles:
-    - { role: "rabbitmq_server", tags: [ "rabbitmq-server" ] }
+    - { role: "os_keystone", tags: [ "os-keystone" ] }
+    - { role: "openstack_openrc", tags: [ "openstack-openrc" ] }
+  vars:
+    galera_address: "{{ internal_lb_vip_address }}"

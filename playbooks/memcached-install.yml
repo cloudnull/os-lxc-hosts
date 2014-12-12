@@ -17,4 +17,4 @@
   hosts: memcached
   user: root
   roles:
-    - { role: "memcached", tags: [ "memcached" ] }
+    - { role: "memcached_server", tags: [ "memcached-server" ] }

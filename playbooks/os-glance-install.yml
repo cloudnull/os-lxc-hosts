@@ -13,20 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install galera server
-  hosts: galera_all
+- name: Install glance server
+  hosts: glance_all
   user: root
   pre_tasks:
-    - name: Galera extra lxc config
+    - name: Glance extra lxc config
       lxc-container:
         name: "{{ container_name }}"
         container_command: |
-          [[ ! -d "/var/lib/mysql" ]] && mkdir -p "/var/lib/mysql"
+          [[ ! -d "/var/lib/glance/images" ]] && mkdir -p "/var/lib/glance/images"
         container_config:
-          - "lxc.mount.entry=/openstack/{{ container_name }} var/lib/mysql none bind 0 0"
+          - "lxc.mount.entry=/openstack/{{ container_name }} var/lib/glance/images none bind 0 0"
       delegate_to: "{{ physical_host }}"
       when: not properties.is_metal is defined or properties.is_metal != true
       tags:
-        - galera-mysql-dir
+        - glance-cache-dir
   roles:
-    - { role: "galera_server", tags: [ "galera-server" ] }
+    - { role: "os_glance", tags: [ "os-glance" ] }
+    - { role: "openstack_openrc", tags: [ "openstack-openrc" ] }
+  vars:
+    galera_address: "{{ internal_lb_vip_address }}"

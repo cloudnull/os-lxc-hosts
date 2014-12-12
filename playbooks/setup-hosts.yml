@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: rpc-hosts-setup.yml
+- include: opc-hosts-setup.yml
 - include: lxc-hosts-setup.yml
 - include: lxc-lib-install.yml
 - include: lxc-containers-create.yml

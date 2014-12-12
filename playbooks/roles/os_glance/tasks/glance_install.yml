@@ -13,12 +13,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install host packages
+- name: Install apt packages
   apt:
     pkg: "{{ item }}"
-    state: present
+    state: latest
     update_cache: yes
     cache_valid_time: 600
-  with_items: opc_host_apt_packages
+  with_items: glance_apt_packages
   tags:
-    - opc-host-packages
+    - glance-install
+    - glance-apt-packages
+
+- name: Get package from git
+  git:
+    repo: "{{ glance_git_repo }}"
+    dest: "{{ glance_git_dest }}"
+    version: "{{ glance_git_install_branch }}"
+  register: git_clone
+  ignore_errors: yes
+  until: git_clone|success
+  retries: 5
+  tags:
+    - glance-install
+    - glance-git-repo
+
+- name: Install pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items: 
+    - "{{ glance_pip_packages }}"
+    - "{{ glance_git_dest }}"
+  tags:
+    - glance-install
+    - glance-pip-packages

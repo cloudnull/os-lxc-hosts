@@ -15,4 +15,3 @@
 
 - include: repo-server-install.yml
 - include: repo-keys.yml
-- include: repo-sync-master.yml

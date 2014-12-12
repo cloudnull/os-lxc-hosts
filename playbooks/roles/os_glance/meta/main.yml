@@ -13,8 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install rabbitmq server
-  hosts: rabbitmq_all
-  user: root
-  roles:
-    - { role: "rabbitmq_server", tags: [ "rabbitmq-server" ] }
+galaxy_info:
+  author: rcbops
+  description: Installation and setup of glance
+  company: Rackspace
+  license: Apache2
+  min_ansible_version: 1.6.6
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+  categories:
+    - cloud
+    - python
+    - keystone
+    - development
+    - openstack
+dependencies:
+  - galera_client
+  - pip_lock_down

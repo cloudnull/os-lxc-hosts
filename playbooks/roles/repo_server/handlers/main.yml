@@ -36,3 +36,9 @@
     name: "ssh"
     state: restarted
     pattern: "ssh"
+
+- name: reload lsyncd
+  service:
+    name: "lsyncd"
+    state: restarted
+    pattern: "lsyncd"

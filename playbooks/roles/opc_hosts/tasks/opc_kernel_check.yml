@@ -27,8 +27,8 @@
   fail:
     msg: >
       Wrong kernel Version found
-      [ {{ ansible_kernel }} < {{ rpc_host_required_kernel }} ]
+      [ {{ ansible_kernel }} < {{ opc_host_required_kernel }} ]
       Resolve this issue before continuing.
-  when: ansible_kernel | version_compare(rpc_host_required_kernel, '<')
+  when: ansible_kernel | version_compare(opc_host_required_kernel, '<')
   tags:
     - opc-host-kernel-check

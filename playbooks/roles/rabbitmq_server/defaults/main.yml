@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+rabbitmq_main_group_name: rabbitmq_all
+
 rabbitmq_apt_keys:
   - { url: "http://www.rabbitmq.com/rabbitmq-signing-key-public.asc", state: "present" }
 
@@ -31,8 +33,6 @@ rabbitmq_userid: rabbitmq
 
 # Name of the rabbitmq cluster
 rabbitmq_cluster_name: rabbitmq_cluster1
-
-rabbitmq_main_group_name: rabbitmq_all
 
 # Rabbitmq open file limits
 rabbitmq_ulimit: 4096

@@ -1,0 +1,52 @@
+---
+# Copyright 2014, Rackspace US, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: create the system group
+  group:
+    name: "{{ glance_system_group_name }}"
+    state: "present"
+    system: "yes"
+  tags:
+    - glance-group
+
+- name: Create the glance system user
+  user:
+    name: "{{ glance_system_user_name }}"
+    group: "{{ glance_system_group_name }}"
+    comment: "{{ glance_system_comment }}"
+    shell: "{{ glance_system_shell }}"
+    system: "yes"
+    createhome: "yes"
+    home: "{{ glance_system_user_home }}"
+  tags:
+    - glance-user
+
+- name: Create glance dir
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner|default(glance_system_user_name) }}"
+    group: "{{ item.group|default(glance_system_group_name) }}"
+  with_items:
+    - { path: "/etc/glance" }
+    - { path: "/var/cache/glance" }
+    - { path: "/var/lib/glance" }
+    - { path: "/var/lib/glance/cache/api" }
+    - { path: "/var/lib/glance/cache/registry" }
+    - { path: "/var/lib/glance/images/" }
+    - { path: "/var/lib/glance/scrubber" }
+    - { path: "/var/log/glance" }
+  tags:
+    - glance-dirs

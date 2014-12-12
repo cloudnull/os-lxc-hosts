@@ -13,8 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install rabbitmq server
-  hosts: rabbitmq_all
-  user: root
-  roles:
-    - { role: "rabbitmq_server", tags: [ "rabbitmq-server" ] }
+- name: Place the init script
+  template:
+    src: "glance-upstart-init.j2"
+    dest: "/etc/init/{{ program_name }}.conf"
+    mode: "0644"
+    owner: "root"
+    group: "root"
+  tags:
+    - glance-init
+
+- name: Reload init scripts
+  shell: |
+    initctl reload-configuration
+  tags:
+    - glance-init
+
+- name: Load service
+  service:
+   name: "{{ program_name }}"
+   enabled: "yes"
+  tags:
+    - glance-init

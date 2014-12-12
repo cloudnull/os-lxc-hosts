@@ -13,15 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+galera_main_group_name: galera_all
+
+galera_monitoring_user: monitoring
+galera_monitoring_user_password: ""
+galera_root_user: root
+
 galera_wsrep_address: "127.0.0.1"
 galera_wsrep_cluster_address: "127.0.0.1"
 galera_wsrep_slave_threads: "{{ ansible_processor_vcpus }}"
 
 galera_file_limits: 16384
 galera_wait_timeout: 28800
-
-# The name of the main group that all cluster nodes exist within
-galera_main_group_name: galera_all
 
 # Galera GPG Keys
 galera_gpg_keys:

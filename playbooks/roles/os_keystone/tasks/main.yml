@@ -13,8 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install rabbitmq server
-  hosts: rabbitmq_all
-  user: root
-  roles:
-    - { role: "rabbitmq_server", tags: [ "rabbitmq-server" ] }
+- include: keystone_pre_install.yml
+- include: keystone_install.yml
+- include: keystone_db_setup.yml
+- include: keystone_apache.yml
+- include: keystone_post_install.yml
+
+- include: keystone_token_cleanup.yml
+  when: ansible_hostname == groups[keystone_main_group_name][0]
+- include: keystone_service_setup.yml
+  when: ansible_hostname == groups[keystone_main_group_name][0]

@@ -73,6 +73,7 @@ opc_host_apt_packages:
 
 # System control kernel tuning
 opc_kernel_options:
+  - { key: 'fs.inotify.max_user_watches', value: 36864 }
   - { key: 'net.ipv4.conf.all.rp_filter', value: 0 }
   - { key: 'net.ipv4.conf.default.rp_filter', value: 0 }
   - { key: 'net.ipv4.ip_forward', value: 1 }

@@ -13,8 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install rabbitmq server
-  hosts: rabbitmq_all
-  user: root
-  roles:
-    - { role: "rabbitmq_server", tags: [ "rabbitmq-server" ] }
+- name: Get incoming addresses from cluster
+  shell: |
+    mysql -e 'show status like "wsrep_incoming_addresses"\G'|awk '/Value/{print $2}'
+  register: wsrep_incoming_addresses
+  changed_when: "not wsrep_incoming_addresses.stdout|search('{{ container_address }}')"
+  tags:
+    - galera-restart
+
+- name: Restart mysql
+  service:
+    name: mysql
+    state: restarted
+  when: "not wsrep_incoming_addresses.stdout|search('{{ container_address }}')"
+  tags:
+    - galera-restart
