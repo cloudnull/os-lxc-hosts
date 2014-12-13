@@ -13,25 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Place the init script
-  template:
-    src: "glance-upstart-init.j2"
-    dest: "/etc/init/{{ program_name }}.conf"
-    mode: "0644"
-    owner: "root"
-    group: "root"
-  tags:
-    - glance-init
+- include: glance_upstart_common_init.yml
+  vars:
+    program_name: "{{ glance_api_program_name }}"
+    service_name: "{{ glance_service_name }}"
+    system_user: "{{ glance_system_user_name }}"
+    system_group: "{{ glance_system_group_name }}"
+    service_home: "{{ glance_system_user_home }}"
 
-- name: Reload init scripts
-  shell: |
-    initctl reload-configuration
-  tags:
-    - glance-init
-
-- name: Load service
-  service:
-   name: "{{ program_name }}"
-   enabled: "yes"
-  tags:
-    - glance-init
+- include: glance_upstart_common_init.yml
+  vars:
+    program_name: "{{ glance_registry_program_name }}"
+    service_name: "{{ glance_service_name }}"
+    system_user: "{{ glance_system_user_name }}"
+    system_group: "{{ glance_system_group_name }}"
+    service_home: "{{ glance_system_user_home }}"

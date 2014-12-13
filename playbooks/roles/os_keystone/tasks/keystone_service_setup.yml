@@ -13,14 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Perform a Keystone DB sync
-  command: keystone-manage db_sync
-  sudo: yes
-  sudo_user: "{{ keystone_system_user_name }}"
-  tags:
-    - keystone-db-sync
-    - keystone-setup
-
 - name: Restart service
   service:
     name: "{{ keystone_system_service_name }}"

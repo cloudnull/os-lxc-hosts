@@ -41,6 +41,7 @@
     group: "{{ item.group|default(glance_system_group_name) }}"
   with_items:
     - { path: "/etc/glance" }
+    - { path: "/etc/sudoers.d", mode: "0750", owner: "root", group: "root" }
     - { path: "/var/cache/glance" }
     - { path: "/var/lib/glance" }
     - { path: "/var/lib/glance/cache/api" }
@@ -50,3 +51,14 @@
     - { path: "/var/log/glance" }
   tags:
     - glance-dirs
+
+- name: Drop sudoers file
+  template:
+    src: "sudoers.j2"
+    dest: "/etc/sudoers.d/{{ glance_system_user_name }}_sudoers"
+    mode: "0440"
+    owner: "root"
+    group: "root"
+  tags:
+    - sudoers
+    - glance-sudoers

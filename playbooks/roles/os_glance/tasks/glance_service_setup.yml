@@ -13,14 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Perform a Glance DB sync
-  command: glance-manage db_sync
-  sudo: yes
-  sudo_user: "{{ glance_system_user_name }}"
-  tags:
-    - glance-db-sync
-    - glance-setup
-
 # Create a service
 - name: Ensure glance service
   keystone:

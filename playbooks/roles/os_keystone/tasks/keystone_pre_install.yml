@@ -42,9 +42,21 @@
   with_items:
     - { path: "/etc/keystone" }
     - { path: "/etc/keystone/ssl" }
+    - { path: "/etc/sudoers.d", mode: "0750", owner: "root", group: "root" }
     - { path: "/var/lib/keystone" }
     - { path: "/var/log/keystone" }
     - { path: "/var/www/cgi-bin", owner: root, group: root }
     - { path: "/var/www/cgi-bin/keystone" }
   tags:
     - keystone-dirs
+
+- name: Drop sudoers file
+  template:
+    src: "sudoers.j2"
+    dest: "/etc/sudoers.d/{{ keystone_system_user_name }}_sudoers"
+    mode: "0440"
+    owner: "root"
+    group: "root"
+  tags:
+    - sudoers
+    - keystone-sudoers

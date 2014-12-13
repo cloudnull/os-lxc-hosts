@@ -15,24 +15,8 @@
 
 - include: glance_pre_install.yml
 - include: glance_install.yml
-
-- include: glance_upstart_init.yml
-  vars:
-    program_name: glance-api
-    service_name: glance
-    system_user: "{{ glance_system_user_name }}"
-    system_group: "{{ glance_system_group_name }}"
-    service_home: "{{ glance_system_user_home }}"
-
-- include: glance_upstart_init.yml
-  vars:
-    program_name: glance-registry
-    service_name: glance
-    system_user: "{{ glance_system_user_name }}"
-    system_group: "{{ glance_system_group_name }}"
-    service_home: "{{ glance_system_user_home }}"
-
 - include: glance_post_install.yml
+- include: glance_upstart_init.yml
 
 - include: glance_db_setup.yml
   when: container_name == groups[glance_main_group_name][0]

@@ -43,9 +43,11 @@ glance_galera_user: glance
 glance_role_name: admin
 glance_api_bind_address: 0.0.0.0
 glance_api_service_port: 9292
+glance_api_program_name: glance-api
 
 glance_registry_bind_address: 0.0.0.0
 glance_registry_service_port: 9191
+glance_registry_program_name: glance-registry
 
 ## Service Type and Data
 glance_service_region: RegionOne
@@ -59,6 +61,7 @@ glance_service_tenant_name: service
 glance_service_publicurl: "{{ glance_service_proto }}://{{ external_lb_vip_address }}:{{ glance_service_port }}"
 glance_service_internalurl: "{{ glance_service_proto }}://{{ internal_lb_vip_address }}:{{ glance_service_port }}"
 glance_service_adminurl: "{{ glance_service_proto }}://{{ internal_lb_vip_address }}:{{ glance_service_port }}"
+
 
 ## Git Source
 glance_git_repo: https://github.com/openstack/glance

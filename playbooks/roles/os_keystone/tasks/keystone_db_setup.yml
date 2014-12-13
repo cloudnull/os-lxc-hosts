@@ -38,3 +38,11 @@
     - "%"
   tags:
     - keystone-db-setup
+
+- name: Perform a Keystone DB sync
+  command: keystone-manage db_sync
+  sudo: yes
+  sudo_user: "{{ keystone_system_user_name }}"
+  tags:
+    - keystone-db-sync
+    - keystone-setup
