@@ -35,6 +35,6 @@
 - include: glance_post_install.yml
 
 - include: glance_db_setup.yml
-  when: ansible_hostname == groups[glance_main_group_name][0]
+  when: container_name == groups[glance_main_group_name][0]
 - include: glance_service_setup.yml
-  when: ansible_hostname == groups[glance_main_group_name][0]
+  when: container_name == groups[glance_main_group_name][0]

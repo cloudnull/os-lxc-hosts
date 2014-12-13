@@ -20,7 +20,7 @@
 - include: rabbitmq_post_install.yml
 
 - include: rabbitmq_cluster_create.yml
-  when: ansible_hostname == groups[rabbitmq_main_group_name][0]
+  when: container_name == groups[rabbitmq_main_group_name][0]
 
 - include: rabbitmq_cluster_join.yml
-  when: ansible_hostname != groups[rabbitmq_main_group_name][0]
+  when: container_name != groups[rabbitmq_main_group_name][0]

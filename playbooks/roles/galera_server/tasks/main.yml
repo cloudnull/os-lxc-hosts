@@ -18,9 +18,9 @@
 - include: galera_post_install.yml
 
 - include: galera_bootstrap.yml
-  when: ansible_hostname == groups[galera_main_group_name][0]
+  when: container_name == groups[galera_main_group_name][0]
 - include: galera_setup.yml
-  when: ansible_hostname == groups[galera_main_group_name][0]
+  when: container_name == groups[galera_main_group_name][0]
 
 - include: galera_add_node.yml
-  when: ansible_hostname != groups[galera_main_group_name][0]
+  when: container_name != groups[galera_main_group_name][0]

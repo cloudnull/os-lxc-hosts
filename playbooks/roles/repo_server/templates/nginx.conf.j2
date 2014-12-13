@@ -72,7 +72,7 @@ http {
     fastcgi_cache_path /var/cache/nginx/ levels=1:2 keys_zone=NGINX_CACHE:10m max_size=32m inactive=5m;
 
     # Custom Header
-    add_header X-WHOAMI "Private Cloud Slushee Repository {{ ansible_hostname }}";
+    add_header X-WHOAMI "Private Cloud Slushee Repository {{ container_name }}";
 
     # Virtual Host Configs
     include /etc/nginx/conf.d/*.conf;

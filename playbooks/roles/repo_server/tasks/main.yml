@@ -17,5 +17,6 @@
 - include: repo_keygen.yml
 - include: repo_install.yml
 - include: repo_post_install.yml
+
 - include: repo_sync_manager.yml
-  when: ansible_hostname == groups[repo_main_group_name][0]
+  when: container_name == groups[repo_main_group_name][0]

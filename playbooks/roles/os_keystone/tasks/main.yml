@@ -20,6 +20,6 @@
 - include: keystone_post_install.yml
 
 - include: keystone_token_cleanup.yml
-  when: ansible_hostname == groups[keystone_main_group_name][0]
+  when: container_name == groups[keystone_main_group_name][0]
 - include: keystone_service_setup.yml
-  when: ansible_hostname == groups[keystone_main_group_name][0]
+  when: container_name == groups[keystone_main_group_name][0]

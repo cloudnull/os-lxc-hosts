@@ -19,7 +19,7 @@ innodb_autoinc_lock_mode=2
 
 # This should be the IP and DNS name for the current system on which you're editing the file.
 wsrep_node_address={{ galera_wsrep_address }}
-wsrep_node_name={{ ansible_hostname }}
+wsrep_node_name={{ container_name }}
 
 # SST method
 wsrep_sst_method=xtrabackup
