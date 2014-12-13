@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+
+# Defaults:{{ glance_system_user_name }}!requiretty
+{{ glance_system_user_name }} ALL = (root) NOPASSWD: /usr/local/bin/{{ glance_service_name }}-rootwrap
