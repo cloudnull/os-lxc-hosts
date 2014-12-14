@@ -62,5 +62,5 @@ lxc_apt_packages:
 
 # Prebuilt images to deploy onto hosts for use in containers.
 lxc_container_caches: 
-  - url: "{{ rpc_repo_url }}/downloads/rpc-trusty-container.tgz"
+  - url: "{{ opc_repo_url }}/downloads/rpc-trusty-container.tgz"
     name: "trusty.tgz"

@@ -28,7 +28,7 @@ Example Usage:
 ~$ # Exclusions
 ~$ EXCLUDE_RELEASES="v9.0.0 gh-pages revert"
 ~$ # Run script
-~$ /opt/rpc-branch-grabber.py "${GITHUB_API_ENDPOINT}" "${EXCLUDE_RELEASES}"
+~$ /opt/opc-branch-grabber.py "${GITHUB_API_ENDPOINT}" "${EXCLUDE_RELEASES}"
 
 Example Library Usage:
 >>> endpoint_url = "https://api.github.com/repos/stackforge/os-ansible-deployment"

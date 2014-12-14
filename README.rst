@@ -25,9 +25,9 @@ Plays:
 
 Setup:
   1. Run the ``bootstrap.sh`` script, which will install, pip, ansible 1.8.x, and all of the required python packages.
-  2. Copy the etc/rpc_deploy directory to /etc/rpc_deploy
-  3. Fill in your ``/etc/rpc_deploy/rpc_user_config.yml``, ``/etc/rpc_deploy/user_secrets.yml`` and ``/etc/rpc_deploy/user_variables.yml`` files.
-  4. Generate all of your random passwords executing ``scripts/pw-token-gen.py --file /etc/rpc_deploy/user_secrets.yml``.
+  2. Copy the etc/opc_deploy directory to /etc/opc_deploy
+  3. Fill in your ``/etc/opc_deploy/opc_user_config.yml``, ``/etc/opc_deploy/user_secrets.yml`` and ``/etc/opc_deploy/user_variables.yml`` files.
+  4. Generate all of your random passwords executing ``scripts/pw-token-gen.py --file /etc/opc_deploy/user_secrets.yml``.
   5. Assuming that you have all your networking setup on your host machines move to the ``playbooks/`` directory and execute your desired plays.  IE: ``rpc-ansible setup-everything.yml``
 
 

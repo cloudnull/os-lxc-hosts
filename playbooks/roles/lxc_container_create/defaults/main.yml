@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-container_config: /etc/lxc/lxc-rpc.conf
+container_config: /etc/lxc/lxc-opc.conf
 
 # Default container template to build from
-container_template: rpc
+container_template: opc
 
 # container_fs.* is only used with building on an LVM backend
 container_fs_size: 5G

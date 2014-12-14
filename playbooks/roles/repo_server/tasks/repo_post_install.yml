@@ -38,7 +38,7 @@
     dest: "{{ item.dest }}"
   with_items:
     - { src: "nginx.conf.j2", dest: "/etc/nginx/nginx.conf" }
-    - { src: "rpc-slushee.vhost.j2", dest: "/etc/nginx/sites-available/rpc-slushee.vhost" }
+    - { src: "opc-slushee.vhost.j2", dest: "/etc/nginx/sites-available/opc-slushee.vhost" }
   notify:
     - reload nginx
   tags:
@@ -60,10 +60,10 @@
     - pkg-repo-nginx
     - pkg-repo-config
 
-- name: Enable rpc-slushee site
+- name: Enable opc-slushee site
   file:
-    src: "/etc/nginx/sites-available/rpc-slushee.vhost"
-    dest: "/etc/nginx/sites-enabled/rpc-slushee.vhost"
+    src: "/etc/nginx/sites-available/opc-slushee.vhost"
+    dest: "/etc/nginx/sites-enabled/opc-slushee.vhost"
     state: "link"
   notify:
     - reload nginx

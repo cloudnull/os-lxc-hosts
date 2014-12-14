@@ -44,8 +44,8 @@
     group: "root"
     mode: "0755"
   with_items:
-    - { src: "rpc-wheel-builder.py", dest: "/opt/rpc-wheel-builder.py" }
-    - { src: "rpc-wheel-builder.sh", dest: "/opt/rpc-wheel-builder.sh" }
-    - { src: "rpc-branch-grabber.py", dest: "/opt/rpc-branch-grabber.py" }
+    - { src: "opc-wheel-builder.py", dest: "/opt/opc-wheel-builder.py" }
+    - { src: "opc-wheel-builder.sh", dest: "/opt/opc-wheel-builder.sh" }
+    - { src: "opc-branch-grabber.py", dest: "/opt/opc-branch-grabber.py" }
   tags:
     - repo-wheel-builder

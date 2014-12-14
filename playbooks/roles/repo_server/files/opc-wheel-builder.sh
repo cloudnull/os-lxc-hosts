@@ -16,9 +16,9 @@
 # Notes:
 # To use this script you MUST move it to some path that will be called.
 # I recommend that the script be stored and executed from 
-# "/opt/rpc-wheel-builder.sh". This script is a wrapper script that relies
-#  on the "rpc-wheel-builder.py" and is execute from
-# "/opt/rpc-wheel-builder.py".
+# "/opt/opc-wheel-builder.sh". This script is a wrapper script that relies
+#  on the "opc-wheel-builder.py" and is execute from
+# "/opt/opc-wheel-builder.py".
 
 # Overrides:
 # This script has several things that can be overriden via environment 
@@ -61,8 +61,8 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 GIT_REPO="${GIT_REPO:-https://github.com/stackforge/os-ansible-deployment}"
 GITHUB_API_ENDPOINT="${GITHUB_API_ENDPOINT:-https://api.github.com/repos/stackforge/os-ansible-deployment}"
 
-WORK_DIR="${WORK_DIR:-/tmp/ansible-lxc-rpc}"
-REPO_PACKAGES_PATH="${WORK_DIR}/rpc_deployment/vars/repo_packages/"
+WORK_DIR="${WORK_DIR:-/tmp/ansible-lxc-opc}"
+REPO_PACKAGES_PATH="${WORK_DIR}/opc_deployment/vars/repo_packages/"
 
 OUTPUT_WHEEL_PATH="${OUTPUT_WHEEL_PATH:-/var/www/repo/python_packages}"
 OUTPUT_GIT_PATH="${OUTPUT_GIT_PATH:-/var/www/repo/rpcgit}"
@@ -97,7 +97,7 @@ function kill_job() {
 
 function cleanup() {
     # Ensure workspaces are cleaned up
-    rm -rf /tmp/rpc_wheels*
+    rm -rf /tmp/opc_wheels*
     rm -rf /tmp/pip*
     rm -rf "${WORK_DIR}"
 }
@@ -121,10 +121,10 @@ fi
 # Grab releases
 if [[ ! "${RELEASES}" ]];then
     # From the GITHUB API pull a list of all branches/tags
-    if [ -f "/opt/rpc-branch-grabber.py" ];then
-        RELEASES=$(/opt/rpc-branch-grabber.py "${GITHUB_API_ENDPOINT}" "${EXCLUDE_RELEASES}")
+    if [ -f "/opt/opc-branch-grabber.py" ];then
+        RELEASES=$(/opt/opc-branch-grabber.py "${GITHUB_API_ENDPOINT}" "${EXCLUDE_RELEASES}")
     else
-        echo "No releases specified and the rpc-branch-grabber.py script was not found."
+        echo "No releases specified and the opc-branch-grabber.py script was not found."
         exit 1
     fi
 fi
@@ -145,7 +145,7 @@ for release in ${RELEASES}; do
     popd
 
     # Build wheels
-    /opt/rpc-wheel-builder.py -i "${REPO_PACKAGES_PATH}" \
+    /opt/opc-wheel-builder.py -i "${REPO_PACKAGES_PATH}" \
                               -o "${OUTPUT_WHEEL_PATH}"/pools \
                               --link-dir "${OUTPUT_WHEEL_PATH}"/"${release}" \
                               --git-repos "${OUTPUT_GIT_PATH}" \

@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # The purpose here is to allow for the environment to update/build the
-# python wheel files from the CURRENT release, as set in the rpc_release
+# python wheel files from the CURRENT release, as set in the opc_release
 # variable.
 - name: Build new repo packages for a given release
   hosts: repo_all[0]
@@ -23,5 +23,5 @@
   tasks:
     - name: Perform a single package build for the current release
       shell: |
-        export RELEASES="{{ rpc_release }}";
-        /opt/rpc-wheel-builder.sh
+        export RELEASES="{{ opc_release }}";
+        /opt/opc-wheel-builder.sh

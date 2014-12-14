@@ -67,8 +67,8 @@ fi
 # Install ansible
 pip2 install "${WORKING_DIR}" || pip install "${WORKING_DIR}"
 
-# Create rpc ansible wrapper tool
-cat > /usr/local/bin/rpc-ansible <<EOF
+# Create opc ansible wrapper tool
+cat > /usr/local/bin/opc-ansible <<EOF
 #!/usr/bin/env bash
 # Copyright 2014, Rackspace US, Inc.
 #
@@ -86,7 +86,7 @@ cat > /usr/local/bin/rpc-ansible <<EOF
 #
 # (c) 2014, Kevin Carter <kevin.carter@rackspace.com>
 
-# RPC wrapper tool to ease the use of ansible with multiple variable files.
+# OPC wrapper tool to ease the use of ansible with multiple variable files.
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
@@ -95,7 +95,7 @@ function info() {
 }
 
 # Discover the variable files.
-VAR1="\$(for i in \$(ls /etc/rpc_deploy/user_*.yml); do echo -ne "-e @\$i "; done)"
+VAR1="\$(for i in \$(ls /etc/opc_deploy/user_*.yml); do echo -ne "-e @\$i "; done)"
 
 # Provide information on the discovered variables.
 info "Variable files: \"\${VAR1}\""
@@ -105,7 +105,7 @@ info "Variable files: \"\${VAR1}\""
 EOF
 
 # Ensure wrapper tool is executable
-chmod +x /usr/local/bin/rpc-ansible
+chmod +x /usr/local/bin/opc-ansible
 
-echo "rpc-ansible script created."
+echo "opc-ansible script created."
 echo "System is bootstrapped and ready for use."

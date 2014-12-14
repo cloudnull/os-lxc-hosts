@@ -93,7 +93,7 @@ def get_ip_address(name, ip_q):
     except Queue.Empty:
         raise SystemExit(
             'Cannot retrieve requested amount of IP addresses. Increase the %s'
-            ' range in your rpc_user_config.yml.' % name
+            ' range in your opc_user_config.yml.' % name
         )
 
 
@@ -322,7 +322,7 @@ def _add_container_hosts(assignment, config, container_name, container_type,
                 ' 52 characters. This combination will result in a container'
                 ' name that is longer than the maximum allowable hostname of'
                 ' 63 characters. Before this process can continue please'
-                ' adjust the host entries in your "rpc_user_config.yml" to use'
+                ' adjust the host entries in your "opc_user_config.yml" to use'
                 ' a short hostname. The recommended hostname length is < 20'
                 ' characters long.' % (host_type, container_name)
             )
@@ -649,17 +649,17 @@ def file_find(pass_exception=False, user_file=None):
 
     If no file is found the system will exit.
     The file lookup will be done in the following directories:
-      /etc/rpc_deploy/
-      $HOME/rpc_deploy/
-      $(pwd)/rpc_deploy/
+      /etc/opc_deploy/
+      $HOME/opc_deploy/
+      $(pwd)/opc_deploy/
 
     :param pass_exception: ``bol``
     :param user_file: ``str`` Additional location to look in FIRST for a file
     """
 
     file_check = [
-        os.path.join('/etc', 'rpc_deploy'),
-        os.path.join(os.environ.get('HOME'), 'rpc_deploy')
+        os.path.join('/etc', 'opc_deploy'),
+        os.path.join(os.environ.get('HOME'), 'opc_deploy')
     ]
 
     if user_file is not None:
@@ -837,7 +837,7 @@ def main():
     )
 
     # Load the user defined configuration file
-    user_config_file = os.path.join(local_path, 'rpc_user_config.yml')
+    user_config_file = os.path.join(local_path, 'opc_user_config.yml')
     if os.path.isfile(user_config_file):
         with open(user_config_file, 'rb') as f:
             user_defined_config.update(yaml.safe_load(f.read()) or {})
@@ -851,12 +851,12 @@ def main():
     if not user_defined_config:
         raise SystemExit(
             'No user config loadaed\n'
-            'No rpc_user_config files are available in either the base'
+            'No opc_user_config files are available in either the base'
             ' location or the conf.d directory'
         )
 
     # Get the contents of the system environment json
-    environment_file = os.path.join(local_path, 'rpc_environment.yml')
+    environment_file = os.path.join(local_path, 'opc_environment.yml')
 
     # Load existing rpc environment json
     with open(environment_file, 'rb') as f:
@@ -875,7 +875,7 @@ def main():
         )
 
     # Load existing inventory file if found
-    dynamic_inventory_file = os.path.join(local_path, 'rpc_inventory.json')
+    dynamic_inventory_file = os.path.join(local_path, 'opc_inventory.json')
     if os.path.isfile(dynamic_inventory_file):
         with open(dynamic_inventory_file, 'rb') as f:
             dynamic_inventory = json.loads(f.read())
@@ -883,7 +883,7 @@ def main():
         # Create a backup of all previous inventory files as a tar archive
         inventory_backup_file = os.path.join(
             local_path,
-            'backup_rpc_inventory.tar'
+            'backup_opc_inventory.tar'
         )
         with tarfile.open(inventory_backup_file, 'a') as tar:
             basename = os.path.basename(dynamic_inventory_file)
@@ -950,7 +950,7 @@ def main():
                 host_hash[_key] = _value
 
     # Save a list of all hosts and their given IP addresses
-    with open(os.path.join(local_path, 'rpc_hostnames_ips.yml'), 'wb') as f:
+    with open(os.path.join(local_path, 'opc_hostnames_ips.yml'), 'wb') as f:
         f.write(
             json.dumps(
                 hostnames_ips,

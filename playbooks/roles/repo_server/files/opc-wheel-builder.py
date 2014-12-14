@@ -547,7 +547,7 @@ def _make_wheels(wheel_dir, build_dir, temp_store_dir):
     """
     LOG.info('Building base packages')
     _requirements_maker(
-        name='rpc_base_requirements.txt',
+        name='opc_base_requirements.txt',
         wheel_dir=temp_store_dir,
         release=PYTHON_PACKAGES['base_release'],
         build_dir=build_dir,
@@ -557,7 +557,7 @@ def _make_wheels(wheel_dir, build_dir, temp_store_dir):
 
     LOG.info('Building test packages')
     _requirements_maker(
-        name='rpc_test_requirements.txt',
+        name='opc_test_requirements.txt',
         wheel_dir=temp_store_dir,
         release=PYTHON_PACKAGES['test_requirements'],
         build_dir=build_dir,
@@ -567,7 +567,7 @@ def _make_wheels(wheel_dir, build_dir, temp_store_dir):
 
     LOG.info('Building known absolute packages')
     _requirements_maker(
-        name='rpc_known_requirements.txt',
+        name='opc_known_requirements.txt',
         wheel_dir=temp_store_dir,
         release=PYTHON_PACKAGES['known_release'],
         build_dir=build_dir,
@@ -577,7 +577,7 @@ def _make_wheels(wheel_dir, build_dir, temp_store_dir):
 
     LOG.info('Building required packages')
     _requirements_maker(
-        name='rpc_required_requirements.txt',
+        name='opc_required_requirements.txt',
         wheel_dir=temp_store_dir,
         release=PYTHON_PACKAGES['required_packages'],
         build_dir=build_dir,
@@ -614,7 +614,7 @@ def make_wheels(wheel_dir, build_dir):
     """
 
     temp_store_dir = os.path.join(
-        tempfile.mkdtemp(prefix='rpc_wheels_temp_storage')
+        tempfile.mkdtemp(prefix='opc_wheels_temp_storage')
     )
     _mkdirs(path=temp_store_dir)
     try:
@@ -853,12 +853,12 @@ def main():
         stream = True
 
     _logging.default_logger(
-        name='rpc_wheel_builder',
+        name='opc_wheel_builder',
         enable_stream=stream
     )
 
     global LOG
-    LOG = logger.getLogger(name='rpc_wheel_builder')
+    LOG = logger.getLogger(name='opc_wheel_builder')
 
     # Create the output path
     output_path = _get_abs_path(path=user_args['output'])
@@ -877,7 +877,7 @@ def main():
             build_path = _get_abs_path(path=user_args['build_dir'])
             _mkdirs(path=build_path)
         else:
-            build_path = tempfile.mkdtemp(prefix='rpc_wheels_build_')
+            build_path = tempfile.mkdtemp(prefix='opc_wheels_build_')
             pre_input = user_args['pre_input']
             if pre_input:
                 pre_input_path = _get_abs_path(path=user_args['pre_input'])

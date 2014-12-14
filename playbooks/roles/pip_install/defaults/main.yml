@@ -14,4 +14,4 @@
 # limitations under the License.
 
 ## Path to pip download/installation script.
-pip_get_pip_url: "{{ rpc_repo_url }}/downloads/get-pip.py"
+pip_get_pip_url: "{{ opc_repo_url }}/downloads/get-pip.py"

@@ -26,4 +26,4 @@ pip_allow_all_external: true
 
 # Drop link files to lock down pip
 pip_links:
-  - { name: "rpc_release", link: "{{ rpc_repo_url }}/python_packages/{{ rpc_release }}/" }
+  - { name: "opc_release", link: "{{ opc_repo_url }}/python_packages/{{ opc_release }}/" }

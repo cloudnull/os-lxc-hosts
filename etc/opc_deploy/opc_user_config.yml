@@ -38,7 +38,7 @@ used_ips:
   - 172.29.244.1,172.29.244.50
 
 # As a user you can define anything that you may wish to "globally"
-# override from within the rpc_deploy configuration file. Anything
+# override from within the opc_deploy configuration file. Anything
 # specified here will take precedence over anything else any where.
 global_overrides:
   # Internal Management vip address

@@ -17,7 +17,7 @@ repo_main_group_name: pkg_repo
 
 repo_nginx_threads: "{{ ansible_processor_vcpus }}"
 repo_worker_connections: 1024
-repo_server_name: rpc-slushee
+repo_server_name: opc-slushee
 
 repo_apt_packages:
   - nginx-extras

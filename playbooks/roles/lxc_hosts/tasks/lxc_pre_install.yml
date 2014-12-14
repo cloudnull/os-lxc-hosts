@@ -48,7 +48,7 @@
     group: "{{ item.group|default('root') }}"
     mode: "{{ item.mode|default('0644') }}"
   with_items:
-    - { src: lxc-rpc.conf.j2, dest: "/etc/lxc/lxc-rpc.conf" }
+    - { src: lxc-opc.conf.j2, dest: "/etc/lxc/lxc-opc.conf" }
     - { src: lxc.default.j2, dest: "/etc/default/lxc-net", mode: "0644" }
     - { src: lxc-system-manage.j2, dest: "/usr/local/bin/lxc-system-manage", mode: "0755" }
     - { src: manual-init.override.j2, dest: "/etc/init/lxc-net.override" }
@@ -87,7 +87,7 @@
     - lxc-files
     - lxc-apparmor
 
-- name: Drop lxc-rpc template
+- name: Drop lxc-opc template
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -95,7 +95,7 @@
     group: "{{ item.group|default('root') }}"
     mode: "{{ item.mode|default('0644') }}"
   with_items:
-    - { src: lxc-rpc, dest: "/usr/share/lxc/templates/lxc-rpc", mode: "0755" }
+    - { src: lxc-opc, dest: "/usr/share/lxc/templates/lxc-opc", mode: "0755" }
   tags:
     - lxc-files
     - lxc-template
