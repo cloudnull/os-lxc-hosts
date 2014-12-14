@@ -63,7 +63,7 @@ options:
         required: true
     server:
         description:
-            - server IP address and port. This can be a comma seperated list of
+            - server IP address and port. This can be a comma separated list of
               servers to connect to.
         required: true
     encrypt_string:

@@ -15,6 +15,7 @@
 
 - name: Install memcached
   hosts: memcached
+  max_fail_percentage: 20
   user: root
   roles:
     - { role: "memcached_server", tags: [ "memcached-server" ] }

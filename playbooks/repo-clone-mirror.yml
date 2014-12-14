@@ -17,6 +17,7 @@
 # from within the environment as found from a given mirror_source_host.
 - name: Cloning the upstream repo mirror
   hosts: repo_all[0]
+  max_fail_percentage: 20
   gather_facts: false
   user: root
   tasks:

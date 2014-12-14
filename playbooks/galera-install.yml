@@ -15,6 +15,7 @@
 
 - name: Install galera server
   hosts: galera_all
+  max_fail_percentage: 20
   user: root
   pre_tasks:
     - name: Galera extra lxc config

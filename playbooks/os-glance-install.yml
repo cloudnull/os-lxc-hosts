@@ -15,6 +15,7 @@
 
 - name: Install glance server
   hosts: glance_all
+  max_fail_percentage: 20
   user: root
   pre_tasks:
     - name: Glance extra lxc config

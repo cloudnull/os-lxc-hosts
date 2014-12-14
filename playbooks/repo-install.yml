@@ -13,5 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: repo-server-install.yml
-- include: repo-keys.yml
+- name: Setup repo servers
+  hosts: repo_all
+  max_fail_percentage: 20
+  user: root
+  pre_tasks:
+    - name: Package repo extra lxc config
+      lxc-container:
+        name: "{{ container_name }}"
+        container_command: |
+          [[ ! -d "/var/www" ]] && mkdir -p "/var/www"
+        container_config:
+          - "lxc.mount.entry=/openstack/{{ container_name }} var/www none bind 0 0"
+      delegate_to: "{{ physical_host }}"
+      when: not properties.is_metal is defined or properties.is_metal != true
+      tags:
+        - repo-dirs
+  roles:
+    - { role: "repo_server", tags: [ "repo-server" ] }
+  vars:
+    pip_no_index: false

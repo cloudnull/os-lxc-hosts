@@ -14,9 +14,21 @@
 # limitations under the License.
 
 - include: repo_pre_install.yml
-- include: repo_keygen.yml
 - include: repo_install.yml
 - include: repo_post_install.yml
 
+- include: repo_key_create.yml
+
+- include: repo_key_store.yml
+  when: >
+    container_name == groups[repo_main_group_name][0] and
+    groups.repo_all|length > 1
+
+- include: repo_key_distribute.yml
+  when: >
+    container_name != groups[repo_main_group_name][0] and
+    groups.repo_all|length > 1
+
 - include: repo_sync_manager.yml
-  when: container_name == groups[repo_main_group_name][0]
+  when: >
+    container_name == groups[repo_main_group_name][0]

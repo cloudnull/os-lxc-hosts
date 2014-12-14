@@ -15,6 +15,7 @@
 
 - name: Basic host setup
   hosts: "{{ host_group|default('hosts') }}"
+  max_fail_percentage: 20
   user: root
   roles:
     - { role: "opc_hosts", tags: [ "opc-hosts-setup" ] }

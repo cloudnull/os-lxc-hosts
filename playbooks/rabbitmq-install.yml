@@ -15,6 +15,7 @@
 
 - name: Install rabbitmq server
   hosts: rabbitmq_all
+  max_fail_percentage: 20
   user: root
   roles:
     - { role: "rabbitmq_server", tags: [ "rabbitmq-server" ] }
