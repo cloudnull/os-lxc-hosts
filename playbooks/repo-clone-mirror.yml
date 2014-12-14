@@ -22,6 +22,8 @@
   user: root
   tasks:
     - name: Sync the upstream repo(s)
-      shell: "rsync -az {{ mirror_source_host }}::opc_mirror /var/www/repo/"
+      shell: "rsync -az {{ mirror_source_host }}::{{ mirror_name }} {{ mirror_path }}"
   vars:
+    mirror_path: /var/www/repo/
+    mirror_name: opc_mirror
     mirror_source_host: "rpc.cloudnull.io"
