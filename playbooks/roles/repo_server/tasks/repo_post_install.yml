@@ -13,6 +13,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: create the system group
+  group:
+    name: "{{ repo_service_group_name }}"
+    state: "present"
+    system: "yes"
+  tags:
+    - pkg-repo-group
+
+- name: Create the nova system user
+  user:
+    name: "{{ repo_service_user_name }}"
+    group: "{{ repo_service_group_name }}"
+    comment: "Nginx repo user"
+    shell: "/bin/bash"
+    system: "yes"
+    createhome: "yes"
+    home: "{{ repo_service_home_folder }}"
+  tags:
+    - pkg-repo-user
+
 - name: File and directory setup
   file:
     path: "{{ item.path }}"
@@ -21,11 +41,11 @@
     group: "{{ item.group|default('root') }}"
     mode: "{{ item.mode }}"
   with_items:
-    - { path: "/var/www", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
-    - { path: "/var/www/repo", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
-    - { path: "/var/www/repo/python_packages", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
-    - { path: "/var/www/repo/python_packages/pools", state: "directory", owner: "nginx", group: "www-data", mode: "2755" }
-    - { path: "/var/www/.ssh", state: "directory", owner: "nginx", group: "www-data", mode: "2700" }
+    - { path: "{{ repo_service_home_folder }}", state: "directory", owner: "{{ repo_service_user_name }}", group: "{{ repo_service_group_name }}", mode: "2755" }
+    - { path: "{{ repo_service_home_folder }}/.ssh", state: "directory", owner: "{{ repo_service_user_name }}", group: "{{ repo_service_group_name }}", mode: "2700" }
+    - { path: "{{ repo_service_home_folder }}/repo", state: "directory", owner: "{{ repo_service_user_name }}", group: "{{ repo_service_group_name }}", mode: "2755" }
+    - { path: "{{ repo_service_home_folder }}/repo/python_packages", state: "directory", owner: "{{ repo_service_user_name }}", group: "{{ repo_service_group_name }}", mode: "2755" }
+    - { path: "{{ repo_service_home_folder }}/repo/python_packages/pools", state: "directory", owner: "{{ repo_service_user_name }}", group: "{{ repo_service_group_name }}", mode: "2755" }
     - { path: "/etc/lsyncd", state: "directory", mode: "0755" }
     - { path: "/var/log/lsyncd", state: "directory", mode: "0755" }
     - { path: "/etc/nginx/sites-enabled/default", state: "absent", mode: "0644" }
@@ -38,6 +58,8 @@
     dest: "{{ item.dest }}"
   with_items:
     - { src: "nginx.conf.j2", dest: "/etc/nginx/nginx.conf" }
+    - { src: "rsyncd.conf.j2", dest: "/etc/rsyncd.conf" }
+    - { src: "opc-wheel-builder.sh.j2", dest: "/opt/opc-wheel-builder.sh" }
     - { src: "opc-slushee.vhost.j2", dest: "/etc/nginx/sites-available/opc-slushee.vhost" }
   notify:
     - reload nginx
@@ -51,8 +73,8 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-    - { regexp: "^FCGI_SOCKET_OWNER=", line: 'FCGI_SOCKET_OWNER="nginx"' }
-    - { regexp: "^FCGI_SOCKET_GROUP=", line: 'FCGI_SOCKET_GROUP="www-data"' }
+    - { regexp: "^FCGI_SOCKET_OWNER=", line: 'FCGI_SOCKET_OWNER="{{ repo_service_user_name }}"' }
+    - { regexp: "^FCGI_SOCKET_GROUP=", line: 'FCGI_SOCKET_GROUP="{{ repo_service_group_name }}"' }
   notify:
     - reload nginx
     - reload fcgiwrap

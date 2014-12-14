@@ -8,12 +8,12 @@ settings {
 {% if groups[repo_main_group_name][0] != node %}
 sync {
     default.rsync,
-    source = "/var/www/repo",
-    target = "{{ hostvars[node]['ansible_ssh_host'] }}:/var/www/repo",
+    source = "{{ repo_service_home_folder }}/repo",
+    target = "{{ hostvars[node]['ansible_ssh_host'] }}:{{ repo_service_home_folder }}/repo",
     rsync = {
         compress = true,
         acls = true,
-        rsh = "/usr/bin/ssh -l nginx -i /var/www/.ssh/id_rsa -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=5"
+        rsh = "/usr/bin/ssh -l {{ repo_service_user_name }} -i {{ repo_service_home_folder }}/.ssh/id_rsa -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=5"
     }
 }
 

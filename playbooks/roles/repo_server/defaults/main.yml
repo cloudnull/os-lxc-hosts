@@ -19,6 +19,10 @@ repo_nginx_threads: "{{ ansible_processor_vcpus }}"
 repo_worker_connections: 1024
 repo_server_name: opc-slushee
 
+repo_service_home_folder: /var/www
+repo_service_user_name: nginx
+repo_service_group_name: www-data
+
 repo_apt_packages:
   - nginx-extras
   - iptables

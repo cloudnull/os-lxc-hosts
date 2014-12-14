@@ -30,7 +30,6 @@
     dest: "{{ item.dest }}"
   with_items:
     - { src: "rsync.defaults", dest: "/etc/default/rsync" }
-    - { src: "rsyncd.conf", dest: "/etc/rsyncd.conf" }
   notify:
     - reload rsyncd
   tags:
@@ -45,7 +44,6 @@
     mode: "0755"
   with_items:
     - { src: "opc-wheel-builder.py", dest: "/opt/opc-wheel-builder.py" }
-    - { src: "opc-wheel-builder.sh", dest: "/opt/opc-wheel-builder.sh" }
     - { src: "opc-branch-grabber.py", dest: "/opt/opc-branch-grabber.py" }
   tags:
     - repo-wheel-builder

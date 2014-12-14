@@ -39,6 +39,6 @@
     user: nginx
   with_items:
     - { name: wheel-builder, minute: "0", hour: "*/6", job: "/opt/opc-wheel-builder.sh" }
-    - { name: report-cleanup, minute: "0", hour: "1", weekday: "6", job: '/usr/bin/find /var/www/repo/python_packages/pools/json-reports/ -type f -mtime +7 -exec rm {} \;' }
+    - { name: report-cleanup, minute: "0", hour: "1", weekday: "6", job: '/usr/bin/find {{ repo_service_home_folder }}/repo/python_packages/pools/json-reports/ -type f -mtime +7 -exec rm {} \;' }
   tags:
     - repo-config
