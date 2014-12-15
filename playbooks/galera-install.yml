@@ -31,3 +31,5 @@
         - galera-mysql-dir
   roles:
     - { role: "galera_server", tags: [ "galera-server" ] }
+  vars:
+    galera_wsrep_node_name: "{{ container_name }}"

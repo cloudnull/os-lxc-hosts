@@ -1,28 +1,75 @@
-Rackspace Private Cloud
-#######################
-:tags: rackspace, lxc, openstack, cloud, ansible
+Openstack Ansible Deployment
+############################
+:tags: openstack, cloud, ansible
 :category: \*nix
 
 contributor guidelines
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Pull Request
-------------
+Filing Bugs
+-----------
 
-When submitting a pull request (PR), or reviewing existing PR's in preparation for merge, please ensure the following criteria are met:
-    * PR relates to a prior filed issue, and the issue number is included in the body of the PR.
-    * The PR (not the issue) is targeted at the relevant milestone. If the PR is against master, target the current/latest milestone.
-    * The issue number is NOT in the title of the commit message. The issue MAY be included in the body of the commit message, but not the title.
-    * The PR title should be usable to populate the change log.
-    * The PR description should clearly describe the functional change being made
-    * Unrelated functional changes are submitted separately.
-    * Note any limitations of the fix.
-    * Fix/feature being added has been coded in a similar style, or taken a similar logical pattern to the rest of the code base.
-    * PR should, where possible, relate to a single issue
-    * All commits relating to a single issue in a PR are squashed to a single commit.
-    * The commit message and PR title should not contain typos
-    * The PR should be submitted against the correct branch. If the PR is against master, and the original issue was labeled with 'backport potential', 'cherry-pick -x' the issue from master into the relevant stable branch, and submit a separate PR to that branch
+Bugs should be filed on Launchpad, not GitHub: "https://bugs.launchpad.net/openstack-ansible"
 
+
+When submitting a bug, or working on a bug, please ensure the following criteria are met:
+    * The description clearly states or describes the original problem or root cause of the problem.
+    * Include historical information on how the problem was identified.
+    * Any relevant logs are included.
+    * The provided information should be totally self-contained. External access to web services/sites should not be needed.
+    * Steps to reproduce the problem if possible.
+
+
+Submitting Code
+---------------
+
+Changes to the project should be submitted for review via the Gerrit tool, following
+the workflow documented at: "http://docs.openstack.org/infra/manual/developers.html#development-workflow"
+
+Pull requests submitted through GitHub will be ignored and closed without regard.
+
+
+Extra
+-----
+
+Tags: 
+    If it's a bug that needs fixing in a branch in addition to Master, add a '\<release\>-backport-potential' tag (eg ``juno-backport-potential``).  There are predefined tags that will autocomplete.
+
+Status:
+    Please leave this alone, it should be New till someone triages the issue.
+
+Importance:
+    Should only be touched if it is a Blocker/Gating issue. If it is, please set to High, and only use Critical if you have found a bug that can take down whole infrastructures.
+
+
+Style guide
+-----------
+
+When creating tasks and other roles for use in Ansible please create then using the YAML dictionary format. 
+
+Example YAML dictionary format:
+    .. code-block:: yaml
+
+        - name: The name of the tasks
+          module_name:
+            thing1: "some-stuff"
+            thing2: "some-other-stuff"
+          tags:
+            - some-tag
+            - some-other-tag
+
+
+Example **NOT** in YAML dictionary format:
+    .. code-block:: yaml
+
+        - name: The name of the tasks
+          module_name: thing1="some-stuff" thing2="some-other-stuff"
+          tags:
+            - some-tag
+            - some-other-tag
+
+
+Usage of the ">" and "|" operators should be limited to Ansible conditionals and command modules such as the ansible ``shell`` module.
 
 
 Issues
